@@ -11,6 +11,7 @@ Navigate:
 ## [MVP List](https://github.com/collin-smith23/howMuchCanISpend/wiki/MVP-List)
 ## [User Stories](https://github.com/collin-smith23/howMuchCanISpend/wiki/User-Stories)
 ## [Database Schema](https://github.com/collin-smith23/howMuchCanISpend/wiki/Database-Schema)
+## [API DOCS](https://github.com/collin-smith23/howMuchCanISpend/wiki/API-Docs)
 
 
 ## Technologies/Frameworks Used:
