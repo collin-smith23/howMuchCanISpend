@@ -12,6 +12,7 @@ Navigate:
 ## [User Stories](https://github.com/collin-smith23/howMuchCanISpend/wiki/User-Stories)
 ## [Database Schema](https://github.com/collin-smith23/howMuchCanISpend/wiki/Database-Schema)
 ## [API DOCS](https://github.com/collin-smith23/howMuchCanISpend/wiki/API-Docs)
+## [Wire Frames](https://github.com/collin-smith23/howMuchCanISpend/wiki/Wire-Frames)
 
 
 ## Technologies/Frameworks Used:
