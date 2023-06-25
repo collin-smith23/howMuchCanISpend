@@ -1,6 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .user import User
 from datetime import datetime
+from sqlalchemy import Numeric, Float
+
 
 
 
@@ -15,12 +17,12 @@ class Event(db.Model):
     event_date = db.Column(db.Date, nullable=False)
     event_time = db.Column(db.Time, nullable=False)
     event_details = db.Column(db.String(2500))
-    estimated_cost = db.Column(db.Decimal)
-    predicted_revenue = db.Column(db.Decimal)
+    estimated_cost = db.Column(db.Numeric(precision=10, scale=2))
+    predicted_revenue = db.Column(db.Numeric(precision=10, scale=2))
     private = db.Column(db.Boolean)
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
-    updated_at = db.Column(db.DateTime, default=datetime.datetime.now)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now)
 
     owner = db.relationship('User', backref=db.backref('events'))
 
@@ -35,8 +37,8 @@ class Event(db.Model):
             'event_date': self.event_date.strftime('%m-%d-%Y'),
             'event_time': self.event_time.strftime('%H:%M'),
             'event_details': self.event_details,
-            'estimated_cost': self.estimated_cost,
-            'predicted_revenue': self.predicted_revenue,
+            'estimated_cost': float(self.estimated_cost),
+            'predicted_revenue': float(self.predicted_revenue),
             'private': self.private,
             'owner_id': self.owner_id,
             'owner_name': self.owner.name,
