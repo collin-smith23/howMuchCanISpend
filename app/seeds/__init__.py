@@ -1,6 +1,7 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .events import seed_events, undo_events
+from .tasks import seed_tasks, undo_tasks
 
 from app.models.db import db, environment, SCHEMA
 
@@ -20,6 +21,7 @@ def seed():
         undo_users()
     seed_users()
     seed_events()
+    seed_tasks()
     # Add other seed functions here
 
 
@@ -28,4 +30,5 @@ def seed():
 def undo():
     undo_users()
     undo_events()
+    undo_tasks()
     # Add other undo functions here
