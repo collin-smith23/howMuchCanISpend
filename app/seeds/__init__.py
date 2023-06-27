@@ -1,8 +1,10 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .events import seed_events, undo_events
+from .event_images import seed_event_images, undo_event_images
 from .tasks import seed_tasks, undo_tasks
 from .finances import seed_finances, undo_finances
+from .members import seed_members, undo_members
 
 from app.models.db import db, environment, SCHEMA
 
@@ -22,8 +24,10 @@ def seed():
         undo_users()
     seed_users()
     seed_events()
+    seed_event_images()
     seed_tasks()
     seed_finances()
+    seed_members()
     # Add other seed functions here
 
 
@@ -34,4 +38,6 @@ def undo():
     undo_events()
     undo_tasks()
     undo_finances()
+    undo_event_images()
+    undo_members()
     # Add other undo functions here

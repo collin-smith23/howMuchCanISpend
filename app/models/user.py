@@ -1,7 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user
-
+from wtforms.validators import ValidationError
+import re
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -30,6 +31,18 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+    def check_is_email(self, email):
+        email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        if re.match(email_regex, email):
+            return True
+        else:
+            return False
+        
+    def validate_whitespace(self, field):
+        value = field.data
+        if value and value.strip() != value:
+            raise ValidationError("Field must not contain leading or trailing spaces")
 
     def to_dict(self):
         return {
