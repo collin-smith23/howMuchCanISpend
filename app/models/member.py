@@ -13,7 +13,7 @@ class Member(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String(255), nullable=False)
     event_id = db.Column(db.Integer, default=1)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), default=User.current_user_id)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     user = db.relationship(User, backref='members')
 
 

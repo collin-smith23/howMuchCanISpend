@@ -17,7 +17,7 @@ class Finance(db.Model):
     transaction_type = db.Column(db.String(255), nullable=False)
     transaction_date = db.Column(db.Date, nullable=False)
     transaction_details = db.Column(db.String(2500))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), default=User.current_user_id)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
 

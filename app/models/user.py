@@ -1,16 +1,12 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import current_user
+from flask_login import UserMixin
 from wtforms.validators import ValidationError
 import re
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
-    def current_user_id():
-        if current_user.is_authenticated:
-            return current_user.id
-        else: return None
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}

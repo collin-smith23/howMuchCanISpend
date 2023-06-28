@@ -19,7 +19,7 @@ class Task(db.Model):
     task_time = db.Column(db.Time, nullable=False)
     task_details = db.Column(db.String(2500))
     status = db.Column(db.String(55))
-    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), default=User.current_user_id)
+    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     assigned_to = db.Column(db.Integer, db.ForeignKey("users.id"))
     event_id = db.Column(db.Integer, db.ForeignKey("events.id"))
     created_at = db.Column(db.DateTime, default=datetime.now)
