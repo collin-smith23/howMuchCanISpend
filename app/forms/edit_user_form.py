@@ -22,6 +22,7 @@ def username_exists(form, field):
 
 
 class EditUserForm(FlaskForm):
+    csrf_token = StringField('csrf_token')
     username = StringField(
         'username', validators=[DataRequired(), username_exists])
     email = StringField('email', validators=[DataRequired(), user_exists])

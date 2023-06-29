@@ -15,28 +15,34 @@ def users():
     users = User.query.all()
     return {'users': [user.to_dict() for user in users]}
 
-@user_routes.route('/current', methods=['GET', 'PUT'])
+@user_routes.route('/current', methods=['GET', 'PUT', 'DELETE'])
 @login_required
-
 def current_user_route():
+    user = current_user
+    print('this is user', user)
     if request.method == 'GET':
         return current_user.to_dict()
     elif request.method == 'PUT':
-        user = current_user
         form = EditUserForm()
-        form['csrf_token'].data = request.cookies['csrf_token']
+        form.csrf_token.data = request.cookies['csrf_token']
         if form.validate_on_submit():
-            print('this is user', user)
             if user :
-                user.username=form.data['username'],
-                user.email=form.data['email'],
-                user.name=form.data['name'],
+                user.username=form.data['username']
+                user.email=form.data['email']
+                user.name=form.data['name']
                 user.password=form.data['password']
                 db.session.commit()
                 return user.to_dict(), 202
             else:
                 return {'error': "Not a signed in user"}
         return user.to_dict(), 401
+    elif request.method == 'DELETE':
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return {'message': 'Successfully deleted user'}
+        else:
+            return {'error': 'Must be logged in user'}
 
 @user_routes.route('/<int:id>')
 @login_required
