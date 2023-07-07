@@ -41,7 +41,6 @@ class Event(db.Model):
             'predicted_revenue': float(self.predicted_revenue),
             'private': self.private,
             'owner_id': self.owner_id,
-            'owner_name': self.owner.name,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

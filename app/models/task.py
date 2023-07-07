@@ -42,7 +42,6 @@ class Task(db.Model):
             'owner_id': self.owner_id,
             'assigned_to': self.assigned_to,
             'event_id': self.event_id,
-            'event_name': self.event.event_name,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

@@ -19,7 +19,6 @@ def users():
 @login_required
 def current_user_route():
     user = current_user
-    print('this is user', user)
     if request.method == 'GET':
         return current_user.to_dict()
     elif request.method == 'PUT':
