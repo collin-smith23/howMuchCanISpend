@@ -25,6 +25,7 @@ class Event(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now)
 
     owner = db.relationship('User', backref=db.backref('events'))
+    event_images = db.relationship('EventImage', cascade='all, delete-orphan')
 
     def is_future_date(self):
         current_date = datetime.now().date()
