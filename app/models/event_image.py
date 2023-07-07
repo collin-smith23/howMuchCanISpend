@@ -12,7 +12,7 @@ class EventImage(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(255), nullable=False)
-    event_id = db.Column(db.String(2500))
+    event_id = db.Column(db.String(2500), db.ForeignKey("events.id"))
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
 
