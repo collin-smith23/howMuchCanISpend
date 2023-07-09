@@ -1,8 +1,7 @@
-from flask import Blueprint, jsonify, session, request
-from flask_login import login_required, current_user, login_user
-from app.models import Event, EventImage, Member, db
-from app.forms import EditUserForm, CreateEvent, CreateEventImage
-from datetime import datetime
+from flask import Blueprint, request
+from flask_login import login_required, current_user
+from app.models import Event, EventImage, Member, Task, db
+from app.forms import CreateEvent, CreateEventImage, CreateTask
 from app.api.aws_helpers import upload_file_to_s3, get_unique_file_name
 
 event_routes = Blueprint('event', __name__)
@@ -11,13 +10,13 @@ event_routes = Blueprint('event', __name__)
 @event_routes.route('/', methods=['GET', 'POST'])
 @login_required
 # Get all current users events
-def user_events ():
+def user_events():
     if request.method == 'GET':
         events = Event.query.filter(Event.owner_id == current_user.id).all()
         if events: 
             return {'events': [event.to_dict() for event in events]}
         else: 
-            return {'message': 'User does not have any events'}
+            return {'error': 'User does not have any events'}
     
     if request.method == 'POST':
         form = CreateEvent()
@@ -151,5 +150,30 @@ def delete_event_image(id, image_id):
                 return {'error': 'Permissions Not Valid'}
         else:
             return {'error': 'Event image not found'}
+    else:
+        return {'error': "Event not found"}
+    
+@event_routes.route('/<int:id>/task', method=["GET", "POST"])
+@login_required
+def event_task(id):
+    event = Event.query.get(id)
+    tasks = Task.query.filter_by(event_id = event.id).all()
+    members = Member.query.filter_by(event_id=event.id).all()
+    is_member = any(member.user_id == current_user.id for member in members)
+    
+    if event:
+        if request.method == 'GET':
+            if is_member or (not event.private):
+                if tasks:
+                    return {"tasks": [task.to_dict() for task in tasks]}
+                else:
+                    return {'error': 'Event has not tasks yet'}
+            else:
+                return {'error': "Must be event member to view event tasks for private events"}
+        elif request.method == "POST":
+            if event.owner_id == current_user.id:
+                pass
+            else:
+                return {"error": "Must be event owner to create a task"}
     else:
         return {'error': "Event not found"}
