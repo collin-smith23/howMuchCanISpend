@@ -1,4 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .event_image import EventImage
 from .user import User
 from datetime import datetime
 from sqlalchemy import Numeric, Float
@@ -43,5 +44,5 @@ class Event(db.Model):
             'private': self.private,
             'owner_id': self.owner_id,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
         }
