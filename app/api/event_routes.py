@@ -73,8 +73,8 @@ def event_by_id(id):
 
                     event_image = EventImage(
                         url = form.data['url'],
-                        owner_id = form.data['owner_id'],
-                        event_id = form.data['event_id']
+                        owner_id = current_user.id,
+                        event_id = id
                     )
                     db.session.add(event_image)
                     db.session.commit()
@@ -129,7 +129,7 @@ def get_event_image(id):
             if images:
                 return {"images": [image.to_dict() for image in images]}
             else: 
-                return {'message': "Event has no images"}
+                return {'erorr': "Event has no images"}
         else:
             return {'error': "Must be event member to view event images for private events"}
     else:
@@ -150,6 +150,6 @@ def delete_event_image(id, image_id):
             else :
                 return {'error': 'Permissions Not Valid'}
         else:
-            return {'message': 'Event image not found'}
+            return {'error': 'Event image not found'}
     else:
         return {'error': "Event not found"}
