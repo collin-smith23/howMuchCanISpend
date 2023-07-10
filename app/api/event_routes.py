@@ -31,8 +31,15 @@ def user_events():
                 predicted_revenue = form.data['predicted_revenue'],
                 private = form.data['private'],
                 owner_id = current_user.id
-                )  
+                )
             db.session.add(event)
+            db.session.commit()
+            owner = Member(
+                user_id = current_user.id,
+                role = "owner",
+                event_id = event.id
+            )
+            db.session.add(owner)
             db.session.commit()
             return event.to_dict()
         else:
@@ -153,6 +160,7 @@ def delete_event_image(id, image_id):
     else:
         return {'error': "Event not found"}
     
+# Create a task for an event or Get all task for event
 @event_routes.route('/<int:id>/task', methods=["GET", "POST"])
 @login_required
 def event_task(id):
@@ -195,3 +203,19 @@ def event_task(id):
                 return {"error": "Must be event owner to create a task"}
     else:
         return {'error': "Event not found"}
+    
+@event_routes.route('/<int:id>/members', methods=["GET", "POST"])
+@login_required
+def task_members(id):
+    event = Event.query.get(id)
+    members = Member.query.filter_by(event_id=event.id).all()
+    is_member = any(member.user_id == current_user.id for member in members)
+
+    if is_member:
+        if request.method == "GET":
+            if members:
+                return {"members": [member.to_dict() for member in members]}
+            else: 
+                return {"error": "No members in group"}
+    else:
+        return {"error": "Must be member to view other members"}
