@@ -4,3 +4,4 @@ from .edit_user_form import EditUserForm
 from .event_create_form import CreateEvent
 from .event_image_form import CreateEventImage
 from .create_task_form import CreateTask
+from .add_member_form import AddMembers

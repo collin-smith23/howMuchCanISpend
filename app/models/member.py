@@ -24,4 +24,5 @@ class Member(db.Model):
             'event_id': self.event_id,
             'user_id': self.user_id,
             'username': self.user.username if self.user else None,
+            'role': self.role
         }

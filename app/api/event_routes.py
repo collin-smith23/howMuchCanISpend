@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
 from app.models import Event, EventImage, Member, Task, db
-from app.forms import CreateEvent, CreateEventImage, CreateTask
+from app.forms import CreateEvent, CreateEventImage, CreateTask, AddMembers
 from app.api.aws_helpers import upload_file_to_s3, get_unique_file_name
 
 event_routes = Blueprint('event', __name__)
@@ -217,5 +217,20 @@ def task_members(id):
                 return {"members": [member.to_dict() for member in members]}
             else: 
                 return {"error": "No members in group"}
+        elif request.method == "POST":
+            form = AddMembers()
+            form['csrf_token'].data = request.cookies['csrf_token']
+            if form.validate_on_submit():
+                member = Member(
+                    user_id = form.data['user_id'],
+                    role = form.data['role'],
+                    event_id = id,
+                )
+                db.session.add(member)
+                db.session.commit()
+                return member.to_dict()
+            else:
+                errors = form.errros
+                return {"errors": errors}
     else:
         return {"error": "Must be member to view other members"}
