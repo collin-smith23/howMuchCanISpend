@@ -35,7 +35,7 @@ def seed_events():
         estimated_cost=200.0,
         predicted_revenue=400.0,
         private=False,
-        owner_id=1
+        owner_id=3
     )
     
     db.session.add(event1)

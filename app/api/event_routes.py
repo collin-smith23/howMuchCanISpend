@@ -92,7 +92,16 @@ def event_by_id(id):
                 return {'error': "Must Be Event Owner To Add Images"}
 
         elif request.method == "PUT":
-            if event.owner_id == current_user.id:
+            members = Member.query.filter_by(event_id=event.id).all()
+            is_member = any(member.user_id == current_user.id for member in members)
+            
+            def is_admin():
+                if is_member:
+                    member = next(member for member in members if member.user_id == current_user.id)
+                    return member.role == "admin" or member.role == "owner"
+                return False
+
+            if is_admin():
                 form = CreateEvent()
                 form['csrf_token'].data = request.cookies['csrf_token']
                 if form.validate_on_submit():

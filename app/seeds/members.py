@@ -4,20 +4,25 @@ from sqlalchemy.sql import text
 def seed_members():
 
     member1 = Member(
-        role = 'admin',
+        role = 'owner',
         event_id = 1,
         user_id = 1
     )
 
     member2 = Member(
-        role = 'member',
+        role = 'owner',
         event_id = 2,
         user_id = 2
     )
     member3 = Member(
-        role = 'member',
+        role = 'owner',
         event_id = 3,
         user_id = 3
+    )
+    member4 = Member(
+        role = 'admin',
+        event_id = 2,
+        user_id = 1
     )
 
     db.session.add(member1)
