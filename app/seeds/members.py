@@ -28,6 +28,7 @@ def seed_members():
     db.session.add(member1)
     db.session.add(member2)
     db.session.add(member3)
+    db.session.add(member4)
     db.session.commit()
 
 def undo_members():

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
 from app.models import Event, EventImage, Member, Task, db
-from app.forms import CreateEvent, CreateEventImage, CreateTask, AddMembers
+from app.forms import CreateEvent, CreateEventImage, CreateTask, AddMembers, EditMembers
 from app.api.aws_helpers import upload_file_to_s3, get_unique_file_name
 
 event_routes = Blueprint('event', __name__)
@@ -94,7 +94,7 @@ def event_by_id(id):
         elif request.method == "PUT":
             members = Member.query.filter_by(event_id=event.id).all()
             is_member = any(member.user_id == current_user.id for member in members)
-            
+
             def is_admin():
                 if is_member:
                     member = next(member for member in members if member.user_id == current_user.id)
@@ -156,9 +156,18 @@ def get_event_image(id):
 def delete_event_image(id, image_id):
     event = Event.query.get(id)
     image = EventImage.query.get(image_id)
+    members = Member.query.filter_by(event_id=event.id).all()
+    is_member = any(member.user_id == current_user.id for member in members)
+            
+    def is_admin():
+        if is_member:
+            member = next(member for member in members if member.user_id == current_user.id)
+            return member.role == "admin" or member.role == "owner"
+        return False
+    
     if event:
         if image:
-            if event.owner_id == current_user.id:
+            if is_admin:
                 db.session.delete(image)
                 db.session.commit()
                 return {'message': 'Successfully deleted image'}
@@ -177,6 +186,12 @@ def event_task(id):
     tasks = Task.query.filter_by(event_id = id).all()
     members = Member.query.filter_by(event_id=event.id).all()
     is_member = any(member.user_id == current_user.id for member in members)
+
+    def is_admin():
+        if is_member:
+            member = next(member for member in members if member.user_id == current_user.id)
+            return member.role == "admin" or member.role == "owner"
+        return False
     
     if event:
         if request.method == 'GET':
@@ -188,7 +203,7 @@ def event_task(id):
             else:
                 return {'error': "Must be event member to view event tasks for private events"}
         elif request.method == "POST":
-            if event.owner_id == current_user.id:
+            if is_admin():
                 form = CreateTask()
                 form['csrf_token'].data = request.cookies['csrf_token']
                 if form.validate_on_submit():
@@ -209,7 +224,7 @@ def event_task(id):
                     errors = form.errors
                     return {'errors': errors}
             else:
-                return {"error": "Must be event owner to create a task"}
+                return {"error": "Must be event owner or admin to create a task"}
     else:
         return {'error': "Event not found"}
     
@@ -243,3 +258,36 @@ def task_members(id):
                 return {"errors": errors}
     else:
         return {"error": "Must be member to view other members"}
+    
+
+@event_routes.route('/<int:id>/members/<int:member_id>', methods=["PUT", "DELETE"])
+@login_required
+def edit_members(id, member_id):
+    event = Event.query.get(id)
+    member = Member.query.get(member_id)
+    members = Member.query.filter_by(event_id=event.id).all()
+    is_member = any(member.user_id == current_user.id for member in members)
+
+    def is_admin():
+        if is_member:
+            member = next(member for member in members if member.user_id == current_user.id)
+            return member.role == "admin" or member.role == "owner"
+        return False
+    
+    if is_admin():
+        if request.method == "PUT":
+            form = EditMembers()
+            form['csrf_token'].data = request.cookies['csrf_token']
+            if form.validate_on_submit():
+                member.role = form.data["role"]
+                db.session.commit()
+                return member.to_dict(), 202
+            else:
+                errors = form.errors
+                return {"errors": errors}
+        elif request.method == "DELETE":
+            db.session.delete(member)
+            db.session.commit()
+            return {'message': 'Successfully deleted member'}
+    else:
+        return {"error": "Not valid permissions to edit members"}

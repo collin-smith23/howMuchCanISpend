@@ -32,7 +32,8 @@ def user_created_tasks():
 @login_required
 def task_by_id(id):
     task = Task.query.get(id)
-    if task.owner_id == current_user.id or task.assigned_to == current_user.id:
+    event = Event.query.get(task.event_id)
+    if task.owner_id == current_user.id or task.assigned_to == current_user.id or event.owner_id == current_user.id:
         if request.method == 'GET':
             return {"task": task.to_dict()}
         elif request.method == 'PUT':
