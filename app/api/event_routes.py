@@ -153,11 +153,11 @@ def delete_event_image(id, image_id):
     else:
         return {'error': "Event not found"}
     
-@event_routes.route('/<int:id>/task', method=["GET", "POST"])
+@event_routes.route('/<int:id>/task', methods=["GET", "POST"])
 @login_required
 def event_task(id):
     event = Event.query.get(id)
-    tasks = Task.query.filter_by(event_id = event.id).all()
+    tasks = Task.query.filter_by(event_id = id).all()
     members = Member.query.filter_by(event_id=event.id).all()
     is_member = any(member.user_id == current_user.id for member in members)
     
@@ -172,7 +172,25 @@ def event_task(id):
                 return {'error': "Must be event member to view event tasks for private events"}
         elif request.method == "POST":
             if event.owner_id == current_user.id:
-                pass
+                form = CreateTask()
+                form['csrf_token'].data = request.cookies['csrf_token']
+                if form.validate_on_submit():
+                    task = Task(
+                    task_name = form.data['task_name'],
+                    task_date = form.data['task_date'],
+                    task_time=form.data['task_time'],
+                    task_details=form.data['task_details'],
+                    status = form.data['status'],
+                    assigned_to = form.data['assigned_to'],
+                    owner_id = current_user.id,
+                    event_id = id
+                    )
+                    db.session.add(task)
+                    db.session.commit()
+                    return task.to_dict()
+                else: 
+                    errors = form.errors
+                    return {'errors': errors}
             else:
                 return {"error": "Must be event owner to create a task"}
     else:

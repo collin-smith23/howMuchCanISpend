@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user, login_user
 from app.models import Event, Member, Task, db
-from app.forms import EditUserForm, CreateEvent, CreateEventImage
+from app.forms import CreateTask
+from datetime import datetime
 
 task_routes = Blueprint('task', __name__)
 
@@ -34,8 +35,29 @@ def task_by_id(id):
     if task.owner_id == current_user.id or task.assigned_to == current_user.id:
         if request.method == 'GET':
             return {"task": task.to_dict()}
-        if request.method == 'PUT':
-            pass
+        elif request.method == 'PUT':
+            form = CreateTask()
+            form['csrf_token'].data = request.cookies['csrf_token']
+            if form.validate_on_submit():
+                task.task_name = form.data['task_name']
+                task.task_date = form.data['task_date']
+                task.task_time=form.data['task_time']
+                task.task_details=form.data['task_details']
+                task.status = form.data['status']
+                task.assigned_to = form.data['assigned_to']
+                task.updated_at = datetime.now()
+                db.session.commit()
+                return task.to_dict(), 202
+            else:
+                errors = form.errors
+                return {"errors": errors}
+        elif request.method == 'DELETE':
+            if task.owner_id == current_user.id:
+                db.session.delete(task)
+                db.session.commit()
+                return {'message': 'Successfully deleted event'}
+            else :
+                return {'error': 'Permissions Not Valid'}
     else:
         return{'error': "Not valid permissions to view task"}
 
