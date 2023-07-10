@@ -6,3 +6,4 @@ from .event_image_form import CreateEventImage
 from .create_task_form import CreateTask
 from .add_member_form import AddMembers
 from .edit_member_form import EditMembers
+from .create_finance_record_form import CreateFinanceRecord
