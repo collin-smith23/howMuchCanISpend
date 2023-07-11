@@ -136,11 +136,10 @@ def event_by_id(id):
 @login_required
 def get_event_image(id):
     event = Event.query.get(id)
-    images = EventImage.query.filter_by(event_id=event.id).all()
-    members = Member.query.filter_by(event_id=event.id).all()
-    is_member = any(member.user_id == current_user.id for member in members)
-
     if event:
+        images = EventImage.query.filter_by(event_id=event.id).all()
+        members = Member.query.filter_by(event_id=event.id).all()
+        is_member = any(member.user_id == current_user.id for member in members)
         # if the group is private must be a member to view images
         if ((is_member and event.private) or (not event.private)):
             if images:
@@ -157,9 +156,6 @@ def get_event_image(id):
 @login_required
 def delete_event_image(id, image_id):
     event = Event.query.get(id)
-    image = EventImage.query.get(image_id)
-    members = Member.query.filter_by(event_id=event.id).all()
-    is_member = any(member.user_id == current_user.id for member in members)
             
     def is_admin():
         if is_member:
@@ -168,6 +164,9 @@ def delete_event_image(id, image_id):
         return False
     
     if event:
+        image = EventImage.query.get(image_id)
+        members = Member.query.filter_by(event_id=event.id).all()
+        is_member = any(member.user_id == current_user.id for member in members)
         if image:
             if is_admin:
                 db.session.delete(image)
@@ -185,17 +184,16 @@ def delete_event_image(id, image_id):
 @login_required
 def event_task(id):
     event = Event.query.get(id)
-    tasks = Task.query.filter_by(event_id = id).all()
-    members = Member.query.filter_by(event_id=event.id).all()
-    is_member = any(member.user_id == current_user.id for member in members)
-
-    def is_admin():
-        if is_member:
-            member = next(member for member in members if member.user_id == current_user.id)
-            return member.role == "admin" or member.role == "owner"
-        return False
     
     if event:
+        tasks = Task.query.filter_by(event_id = id).all()
+        members = Member.query.filter_by(event_id=event.id).all()
+        is_member = any(member.user_id == current_user.id for member in members)
+        def is_admin():
+            if is_member:
+                member = next(member for member in members if member.user_id == current_user.id)
+                return member.role == "admin" or member.role == "owner"
+            return False
         if request.method == 'GET':
             if is_member or (not event.private):
                 if tasks:
@@ -234,65 +232,75 @@ def event_task(id):
 @login_required
 def task_members(id):
     event = Event.query.get(id)
-    members = Member.query.filter_by(event_id=event.id).all()
-    is_member = any(member.user_id == current_user.id for member in members)
-
-    if is_member:
-        if request.method == "GET":
-            if members:
-                return {"members": [member.to_dict() for member in members]}
-            else: 
-                return {"error": "No members in group"}
-        elif request.method == "POST":
-            form = AddMembers()
-            form['csrf_token'].data = request.cookies['csrf_token']
-            if form.validate_on_submit():
-                member = Member(
-                    user_id = form.data['user_id'],
-                    role = form.data['role'],
-                    event_id = id,
-                )
-                db.session.add(member)
-                db.session.commit()
-                return member.to_dict()
-            else:
-                errors = form.errros
-                return {"errors": errors}
-    else:
-        return {"error": "Must be member to view other members"}
-    
-
-@event_routes.route('/<int:id>/members/<int:member_id>', methods=["PUT", "DELETE"])
-@login_required
-def edit_members(id, member_id):
-    event = Event.query.get(id)
-    member = Member.query.get(member_id)
-    members = Member.query.filter_by(event_id=event.id).all()
-    is_member = any(member.user_id == current_user.id for member in members)
-
-    def is_admin():
+    if event:
+        members = Member.query.filter_by(event_id=event.id).all()
+        is_member = any(member.user_id == current_user.id for member in members)
         if is_member:
-            member = next(member for member in members if member.user_id == current_user.id)
-            return member.role == "admin" or member.role == "owner"
-        return False
-    
-    if is_admin():
-        if request.method == "PUT":
-            form = EditMembers()
-            form['csrf_token'].data = request.cookies['csrf_token']
-            if form.validate_on_submit():
-                member.role = form.data["role"]
-                db.session.commit()
-                return member.to_dict(), 202
-            else:
-                errors = form.errors
-                return {"errors": errors}
-        elif request.method == "DELETE":
-            if member:
-                db.session.delete(member)
-                db.session.commit()
-                return {'message': 'Successfully deleted member'}
-            else:
-                return {"error": "Member not found"}
+            if request.method == "GET":
+                if members:
+                    return {"members": [member.to_dict() for member in members]}
+                else: 
+                    return {"error": "No members in group"}
+            elif request.method == "POST":
+                form = AddMembers()
+                form['csrf_token'].data = request.cookies['csrf_token']
+                if form.validate_on_submit():
+                    member = Member(
+                        user_id = form.data['user_id'],
+                        role = form.data['role'],
+                        event_id = id,
+                    )
+                    db.session.add(member)
+                    db.session.commit()
+                    return member.to_dict()
+                else:
+                    errors = form.errros
+                    return {"errors": errors}
+        else:
+            return {"error": "Must be member to view other members"}
     else:
-        return {"error": "Not valid permissions to edit members"}
+        return {'error': "Event not found"}
+
+
+@event_routes.route('/<int:id>/members/<int:member_id>', methods=["GET", "PUT", "DELETE"])
+@login_required
+def access_members(id, member_id):
+    event = Event.query.get(id)
+
+    if event:
+        member = Member.query.get(member_id)
+        if member:
+            members = Member.query.filter_by(event_id=event.id).all()
+            is_member = any(member.user_id == current_user.id for member in members)
+
+            def is_admin():
+                if is_member:
+                    member = next(member for member in members if member.user_id == current_user.id)
+                    return member.role == "admin" or member.role == "owner"
+                return False
+            if is_member:
+                if request.method == "GET":
+                    return {"member": member}
+            else:
+                return {"error": "Must be in event to view members"}
+            if is_admin():
+                if request.method == "PUT":
+                    form = EditMembers()
+                    form['csrf_token'].data = request.cookies['csrf_token']
+                    if form.validate_on_submit():
+                        member.role = form.data["role"]
+                        db.session.commit()
+                        return member.to_dict(), 202
+                    else:
+                        errors = form.errors
+                        return {"errors": errors}
+                elif request.method == "DELETE":
+                        db.session.delete(member)
+                        db.session.commit()
+                        return {'message': 'Successfully deleted member'}
+            else:
+                return {"error": "Not valid permissions to access member roles"}
+        else: 
+            return {"error": "Member not found"}
+    else:
+        return {"error": "Event not found"}

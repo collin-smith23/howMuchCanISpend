@@ -23,9 +23,10 @@ class Finance(db.Model):
 
     
     def to_dict(self):
+        formatted_amount = "{:.2f}".format(float(self.amount))
         return {
             'id': self.id,
-            'amount': float(self.amount),
+            'amount': formatted_amount,
             'transaction_type': self.transaction_type,
             'transaction_date': self.transaction_date.strftime('%m-%d-%Y'),
             'transaction_details': self.transaction_details,

@@ -32,38 +32,38 @@ def user_created_tasks():
 @login_required
 def task_by_id(id):
     task = Task.query.get(id)
-    event = Event.query.get(task.event_id)
-    if task.owner_id == current_user.id or task.assigned_to == current_user.id or event.owner_id == current_user.id:
-        if request.method == 'GET':
-            return {"task": task.to_dict()}
-        elif request.method == 'PUT':
-            form = CreateTask()
-            form['csrf_token'].data = request.cookies['csrf_token']
-            if form.validate_on_submit():
-                task.task_name = form.data['task_name']
-                task.task_date = form.data['task_date']
-                task.task_time=form.data['task_time']
-                task.task_details=form.data['task_details']
-                task.status = form.data['status']
-                task.assigned_to = form.data['assigned_to']
-                task.updated_at = datetime.now()
-                db.session.commit()
-                return task.to_dict(), 202
-            else:
-                errors = form.errors
-                return {"errors": errors}
-        elif request.method == 'DELETE':
-            if task:
+    if task:
+        event = Event.query.get(task.event_id)
+        if task.owner_id == current_user.id or task.assigned_to == current_user.id or event.owner_id == current_user.id:
+            if request.method == 'GET':
+                return {"task": task.to_dict()}
+            elif request.method == 'PUT':
+                form = CreateTask()
+                form['csrf_token'].data = request.cookies['csrf_token']
+                if form.validate_on_submit():
+                    task.task_name = form.data['task_name']
+                    task.task_date = form.data['task_date']
+                    task.task_time=form.data['task_time']
+                    task.task_details=form.data['task_details']
+                    task.status = form.data['status']
+                    task.assigned_to = form.data['assigned_to']
+                    task.updated_at = datetime.now()
+                    db.session.commit()
+                    return task.to_dict(), 202
+                else:
+                    errors = form.errors
+                    return {"errors": errors}
+            elif request.method == 'DELETE':
                 if task.owner_id == current_user.id:
                     db.session.delete(task)
                     db.session.commit()
                     return {'message': 'Successfully deleted event'}
                 else :
                     return {'error': 'Permissions Not Valid'}
-            else:
-                return {"error": "Task not found"}
+        else:
+            return{'error': "Not valid permissions to view task"}
     else:
-        return{'error': "Not valid permissions to view task"}
+        return {"error": "Task not found"}
 
 
 

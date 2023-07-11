@@ -19,29 +19,32 @@ def users():
 @login_required
 def current_user_route():
     user = current_user
-    if request.method == 'GET':
-        return current_user.to_dict()
-    elif request.method == 'PUT':
-        form = EditUserForm()
-        form.csrf_token.data = request.cookies['csrf_token']
-        if form.validate_on_submit():
-            if user :
-                user.username=form.data['username']
-                user.email=form.data['email']
-                user.name=form.data['name']
-                user.password=form.data['password']
+    if user:
+        if request.method == 'GET':
+            return current_user.to_dict()
+        elif request.method == 'PUT':
+            form = EditUserForm()
+            form.csrf_token.data = request.cookies['csrf_token']
+            if form.validate_on_submit():
+                if user :
+                    user.username=form.data['username']
+                    user.email=form.data['email']
+                    user.name=form.data['name']
+                    user.password=form.data['password']
+                    db.session.commit()
+                    return user.to_dict(), 202
+                else:
+                    return {'error': "Not a signed in user"}
+            return user.to_dict(), 401
+        elif request.method == 'DELETE':
+            if user:
+                db.session.delete(user)
                 db.session.commit()
-                return user.to_dict(), 202
+                return {'message': 'Successfully deleted user'}
             else:
-                return {'error': "Not a signed in user"}
-        return user.to_dict(), 401
-    elif request.method == 'DELETE':
-        if user:
-            db.session.delete(user)
-            db.session.commit()
-            return {'message': 'Successfully deleted user'}
-        else:
-            return {'error': 'Must be logged in user'}
+                return {'error': 'Must be logged in user'}
+    else:
+        return {"error": "Not logged in as a user"}
 
 @user_routes.route('/<int:id>')
 @login_required
@@ -50,4 +53,7 @@ def user(id):
     Query for a user by id and returns that user in a dictionary
     """
     user = User.query.get(id)
-    return user.to_dict()
+    if user:
+        return user.to_dict()
+    else:
+        return {"error": "User not found"}
