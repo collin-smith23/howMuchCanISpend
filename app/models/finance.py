@@ -21,9 +21,6 @@ class Finance(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
 
-    def is_future_date(self):
-        current_date = datetime.now().date()
-        return self.transaction_date >= current_date
     
     def to_dict(self):
         return {

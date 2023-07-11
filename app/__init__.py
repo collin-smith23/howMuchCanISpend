@@ -9,6 +9,7 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
 from .api.task_routes import task_routes
+from .api.finance_routes import finance_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -32,6 +33,7 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(event_routes, url_prefix='/api/event')
 app.register_blueprint(task_routes, url_prefix='/api/task')
+app.register_blueprint(finance_routes, url_prefix='/api/finance')
 db.init_app(app)
 Migrate(app, db)
 

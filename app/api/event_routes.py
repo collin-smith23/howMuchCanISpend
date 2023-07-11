@@ -112,7 +112,6 @@ def event_by_id(id):
                     event.estimated_cost = form.data['estimated_cost']
                     event.predicted_revenue = form.data['predicted_revenue']
                     event.private = form.data['private']
-                    event.owner_id = current_user.id
                     db.session.commit()
                     return event.to_dict(), 202
                 else:
@@ -121,12 +120,15 @@ def event_by_id(id):
             else :
                 return {'error': 'Permissions Not Valid'}
         elif request.method == 'DELETE':
-            if event.owner_id == current_user.id:
-                db.session.delete(event)
-                db.session.commit()
-                return {'message': 'Successfully deleted event'}
-            else :
-                return {'error': 'Permissions Not Valid'}
+            if event:
+                if event.owner_id == current_user.id:
+                    db.session.delete(event)
+                    db.session.commit()
+                    return {'message': 'Successfully deleted event'}
+                else :
+                    return {'error': 'Permissions Not Valid'}
+            else:
+                return {"error": "Event not found"}
     else: 
         return {'error': 'Event not found'}
     
@@ -286,8 +288,11 @@ def edit_members(id, member_id):
                 errors = form.errors
                 return {"errors": errors}
         elif request.method == "DELETE":
-            db.session.delete(member)
-            db.session.commit()
-            return {'message': 'Successfully deleted member'}
+            if member:
+                db.session.delete(member)
+                db.session.commit()
+                return {'message': 'Successfully deleted member'}
+            else:
+                return {"error": "Member not found"}
     else:
         return {"error": "Not valid permissions to edit members"}

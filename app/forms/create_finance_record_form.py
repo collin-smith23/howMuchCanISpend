@@ -12,4 +12,4 @@ class CreateFinanceRecord(FlaskForm):
     amount = IntegerField("amount", validators=[DataRequired()])
     transaction_type = StringField("transaction_type", validators=[validate_transaction_type])
     transaction_details = TextAreaField("details")
-    transaction_date = DateField('date')
+    transaction_date = DateField('date', validators=[DataRequired()])

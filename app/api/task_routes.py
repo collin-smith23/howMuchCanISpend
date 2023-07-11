@@ -53,12 +53,15 @@ def task_by_id(id):
                 errors = form.errors
                 return {"errors": errors}
         elif request.method == 'DELETE':
-            if task.owner_id == current_user.id:
-                db.session.delete(task)
-                db.session.commit()
-                return {'message': 'Successfully deleted event'}
-            else :
-                return {'error': 'Permissions Not Valid'}
+            if task:
+                if task.owner_id == current_user.id:
+                    db.session.delete(task)
+                    db.session.commit()
+                    return {'message': 'Successfully deleted event'}
+                else :
+                    return {'error': 'Permissions Not Valid'}
+            else:
+                return {"error": "Task not found"}
     else:
         return{'error': "Not valid permissions to view task"}
 
