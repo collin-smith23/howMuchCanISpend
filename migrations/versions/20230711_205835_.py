@@ -32,7 +32,7 @@ def upgrade():
     op.create_table('event_images',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('url', sa.String(length=255), nullable=False),
-    sa.Column('event_id', sa.String(length=2500), nullable=True),
+    sa.Column('event_id', sa.Integer(), nullable=True),
     sa.Column('owner_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['event_id'], ['events.id'], ),
     sa.ForeignKeyConstraint(['owner_id'], ['users.id'], ),
