@@ -17,6 +17,9 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255), nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    owned_tasks = db.relationship('Task', foreign_keys="Task.owner_id", back_populates="owner")
+    assigned_tasks = db.relationship('Task', foreign_keys="Task.assigned_to", back_populates="assigned_user")
+
     @property
     def password(self):
         return self.hashed_password

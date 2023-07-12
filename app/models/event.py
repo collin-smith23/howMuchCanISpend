@@ -21,12 +21,12 @@ class Event(db.Model):
     estimated_cost = db.Column(db.Numeric(precision=10, scale=2))
     predicted_revenue = db.Column(db.Numeric(precision=10, scale=2))
     private = db.Column(db.Boolean)
-    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
 
     owner = db.relationship('User', backref=db.backref('events'))
-    event_images = db.relationship('EventImage', cascade='all, delete-orphan')
+    event_images = db.relationship('EventImage', backref=db.backref('event'), cascade='all, delete-orphan')
 
     def is_future_date(self):
         current_date = datetime.now().date()
