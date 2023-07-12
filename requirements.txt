@@ -29,5 +29,5 @@ werkzeug==2.2.2
 wtforms==3.0.1
 flask-socketio==5.3.2
 eventlet==0.30.2
-boto3==1.28.1
-botocore==1.29.13
+boto3==1.26.156
+botocore==1.29.156
