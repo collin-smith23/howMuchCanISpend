@@ -25,7 +25,7 @@ def seed_tasks():
         task_details= 'Task 2 details',
         status= 'In Progress',
         owner_id= 3,
-        assigned_to= 4,
+        assigned_to= 2,
         event_id= 2,
         created_at= datetime.now(),
         updated_at= datetime.now()
@@ -38,7 +38,7 @@ def seed_tasks():
         task_details= 'Task 3 details',
         status= 'Completed',
         owner_id= 2,
-        assigned_to= 5,
+        assigned_to= 3,
         event_id= 1,
         created_at= datetime.now(),
         updated_at= datetime.now()
