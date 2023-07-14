@@ -1,0 +1,37 @@
+.home-container {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 40%;
+    height: 500px
+}
+
+.event-box {
+    width: 100%;
+    padding: 20px;
+    background-color: #f2f2f2;
+    box-sizing: border-box;
+}
+
+.event {
+    display: flex;
+}
+
+.category {
+    flex: 1 1 33.33%;
+    margin-right: 20px;
+}
+
+.category-title {
+    font-weight: bold;
+}
+
+.category-element {
+    margin-top: 8px;
+}
+
+.create-event-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
