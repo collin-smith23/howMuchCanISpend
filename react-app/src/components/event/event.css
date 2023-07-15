@@ -3,7 +3,8 @@
     justify-content: space-between;
     border: 1px solid black;
     width: 40%;
-    height: 500px
+    height: 600px;
+    margin-top: 15rem;
 }
 
 .event-box {

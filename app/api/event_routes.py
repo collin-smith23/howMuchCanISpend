@@ -6,6 +6,15 @@ from app.api.aws_helpers import upload_file_to_s3, get_unique_file_name
 
 event_routes = Blueprint('event', __name__)
 
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
 
 @event_routes.route('/', methods=['GET', 'POST'])
 @login_required
@@ -34,17 +43,20 @@ def user_events():
                 )
             db.session.add(event)
             db.session.commit()
-            owner = Member(
-                user_id = current_user.id,
-                role = "owner",
-                event_id = event.id
-            )
-            db.session.add(owner)
-            db.session.commit()
-            return event.to_dict()
+            if event:
+                owner = Member(
+                    user_id = current_user.id,
+                    role = "owner",
+                    event_id = event.id
+                )
+                db.session.add(owner)
+                db.session.commit()
+                return event.to_dict()
+            else: 
+                return {'error': 'Failed to create event'}
         else:
-            errors = form.errors
-            return {"errors": error for error in errors}
+            print('this is event backend', form.data['event_date'])
+            return {'errors': validation_errors_to_error_messages(form.errors)}
 
 
 # Route to get all events

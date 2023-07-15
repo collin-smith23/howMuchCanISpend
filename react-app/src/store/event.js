@@ -76,26 +76,26 @@ export const byIdGetEvent = (event_id) => async (dispatch) => {
 export const createEvent = (event) => async (dispatch) => {
     console.log('store event -----', event)
     const res = await fetch('/api/event/', {
-        method: 'POST',
-            body: JSON.stringify({
-                "event_name": event.event_name,
-                "event_date": event.event_date,
-                "event_time": event.event_time,
-                "event_details" : event.event_details,
-                "estimated_cost": event.estimated_cost,
-                "predicted_revenue": event.predicted_revenue,
-                "private": event.private,
-                "owner_id": event.owner_id
-            })
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "event_name": event.event_name,
+            "event_date": event.event_date,
+            "event_time": event.event_time,
+            "event_details" : event.event_details,
+            "estimated_cost": event.estimated_cost,
+            "predicted_revenue": event.predicted_revenue,
+            "private": event.privateEvent.toString(),
+        })
         })
         if (res.ok) {
             const data = await res.json();
-            console.log('data ------', data)
-            dispatch(addEvent(data));
-            return data
+            console.log('data ------', data['id'])
+            dispatch(byIdGetEvent(data['id']));
         } else {
-            const error = await res.json()
-            return error
+            return res
         }
 };
 
