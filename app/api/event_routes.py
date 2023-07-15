@@ -44,7 +44,7 @@ def user_events():
             return event.to_dict()
         else:
             errors = form.errors
-            return {"errors": errors}
+            return {"errors": error for error in errors}
 
 
 # Route to get all events
@@ -87,7 +87,7 @@ def event_by_id(id):
                     return event_image.to_dict()
                 else:
                     errors = form.errors
-                    return {"errors": errors}
+                    return {"errors": error for error in errors}
             else: 
                 return {'error': "Must Be Event Owner To Add Images"}
 
@@ -116,7 +116,7 @@ def event_by_id(id):
                     return event.to_dict(), 202
                 else:
                     errors = form.errors
-                    return {"errors": errors}
+                    return {"errors": error for error in errors}
             else :
                 return {'error': 'Permissions Not Valid'}
         elif request.method == 'DELETE':
@@ -222,7 +222,7 @@ def event_task(id):
                     return task.to_dict()
                 else: 
                     errors = form.errors
-                    return {'errors': errors}
+                    return {"errors": error for error in errors}
             else:
                 return {"error": "Must be event owner or admin to create a task"}
     else:
@@ -255,7 +255,7 @@ def task_members(id):
                     return member.to_dict()
                 else:
                     errors = form.errros
-                    return {"errors": errors}
+                    return {"errors": error for error in errors}
         else:
             return {"error": "Must be member to view other members"}
     else:
@@ -293,7 +293,7 @@ def access_members(id, member_id):
                         return member.to_dict(), 202
                     else:
                         errors = form.errors
-                        return {"errors": errors}
+                        return {"errors": error for error in errors}
                 elif request.method == "DELETE":
                         db.session.delete(member)
                         db.session.commit()

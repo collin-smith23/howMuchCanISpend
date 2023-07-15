@@ -6,6 +6,7 @@ const UPDATE_EVENT = "events/UPDATE_EVENT";
 const REMOVE_EVENT = "events/REMOVE_EVENT";
 
 
+
 const getUserEvents = (events) => ({
     type: GET_USER_EVENTS,
     payload: events
@@ -41,6 +42,7 @@ export const getAllUserEvents = () => async (dispatch) => {
         if (res.ok) {
             const data = await res.json();
             dispatch(getUserEvents(data));
+            return data
         } else {
             const error = await res.json()
             return error
@@ -51,8 +53,8 @@ export const getAllEvents = () => async (dispatch) => {
         const res = await fetch(`/api/event/all`);
         if (res.ok) {
             const data = await res.json();
-            console.log(data)
             dispatch(getEvents(data));
+            return data
         } else {
             const error = await res.json()
             return error
@@ -72,11 +74,12 @@ export const byIdGetEvent = (event_id) => async (dispatch) => {
     }; 
 
 export const createEvent = (event) => async (dispatch) => {
-            const res = await fetch('/api/event/', {
-            method: 'POST',
+    console.log('store event -----', event)
+    const res = await fetch('/api/event/', {
+        method: 'POST',
             body: JSON.stringify({
                 "event_name": event.event_name,
-                "event_date": event.event_name,
+                "event_date": event.event_date,
                 "event_time": event.event_time,
                 "event_details" : event.event_details,
                 "estimated_cost": event.estimated_cost,
@@ -87,13 +90,14 @@ export const createEvent = (event) => async (dispatch) => {
         })
         if (res.ok) {
             const data = await res.json();
+            console.log('data ------', data)
             dispatch(addEvent(data));
             return data
         } else {
             const error = await res.json()
             return error
         }
- };
+};
 
 export const editEvent = (event) => async (dispatch) => {
     const res = await fetch(`/api/event/${event.id}`, {

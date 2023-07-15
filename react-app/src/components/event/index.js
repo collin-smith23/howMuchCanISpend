@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import * as eventActions from "../../store/event";
 import EventForm from "../eventForm";
@@ -7,6 +8,7 @@ import "./event.css";
 
 function Events() {
     const dispatch = useDispatch();
+    const history = useHistory()
     const events = useSelector((state) => state.event.events.events);
     const user = useSelector((state) => state.session.user);
     const [showMenu, setShowMenu] = useState(false);
@@ -19,8 +21,14 @@ function Events() {
 
     useEffect(() => {
         console.log("events", events);
-        dispatch(eventActions.getAllUserEvents());
-    }, [dispatch]);
+        if (user) {
+            dispatch(eventActions.getAllUserEvents());
+        } else {
+            return (
+                <div>Must be logged in to view</div>
+            )
+        }
+    }, [dispatch, user]);
 
     useEffect(() => {
         if (!showMenu) return;
@@ -36,6 +44,7 @@ function Events() {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
+    
     return events ? (
         <div className="home-container">
             <div className="event-box">
