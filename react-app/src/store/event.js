@@ -94,7 +94,8 @@ export const createEvent = (event) => async (dispatch) => {
 
         if (!res.ok) {
             const errorData = await res.json();
-            throw new Error(errorData.error);
+            const errorMessages = errorData.errors;
+            throw new Error(JSON.stringify(errorMessages));
         }
 
         const data = await res.json();
@@ -103,7 +104,8 @@ export const createEvent = (event) => async (dispatch) => {
         dispatch(byIdGetEvent(data.id));
         return data;
     } catch (error) {
-        return error.message;
+        console.log(error)
+        return JSON.parse(error.message);
     }
 };
 

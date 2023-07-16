@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import * as eventActions from "../../store/event";
-import OpenModalButton from "../OpenModalButton";
 import './CreateEventForm.css'
 import { useModal } from "../../context/Modal";
 
@@ -48,10 +47,11 @@ function EventForm() {
             try {
 
                 const data = await dispatch(eventActions.createEvent(formattedEvent))
-                if (data) {
+                if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)
                 } else {
                     closeModal();
+                    // history.push(`/event/${data.id}`);
                 }
             } catch (error) {
                 setErrors([error.message]);

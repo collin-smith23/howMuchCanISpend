@@ -55,8 +55,8 @@ def user_events():
             else: 
                 return {'error': 'Failed to create event'}
         else:
-            print('this is event backend', form.data['event_date'])
-            return {'errors': validation_errors_to_error_messages(form.errors)}
+            print('this is error backend', form.errors)
+            return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
 # Route to get all events
