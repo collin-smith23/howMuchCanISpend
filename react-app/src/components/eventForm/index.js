@@ -29,9 +29,9 @@ function EventForm() {
             else return false
         }
 
-        if (event_name.trim() == "") setErrors(["Must enter a valid name"])
-        if (event_date.trim() == "") setErrors(["Must enter a valid date"])
-        if (event_time.trim() == "") setErrors(["Must enter a valid time"])
+        if (event_name.trim() === "") setErrors(["Must enter a valid name"])
+        if (event_date.trim() === "") setErrors(["Must enter a valid date"])
+        if (event_time.trim() === "") setErrors(["Must enter a valid time"])
 
         if (isFormValid(event_name, event_date, event_time)) {
             const formattedEvent = {
