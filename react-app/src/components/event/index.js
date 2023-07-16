@@ -20,7 +20,7 @@ function Events() {
     };
 
     useEffect(() => {
-        console.log("events", events);
+        
         if (user) {
             dispatch(eventActions.getAllUserEvents());
         } else {
@@ -59,6 +59,8 @@ function Events() {
                         result = `$${estimated_cost.toFixed(2)}`;
                     } else if (predicted_revenue) {
                         result = `$${predicted_revenue.toFixed(2)}`;
+                    } else if (!predicted_revenue && !estimated_cost) {
+                        result = `$0.00`
                     }
 
                     return (

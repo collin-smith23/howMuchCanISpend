@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import * as eventActions from "../../store/event";
 import OpenModalButton from "../OpenModalButton";
 import './CreateEventForm.css'
+import { useModal } from "../../context/Modal";
 
 function EventForm() {
     const dispatch = useDispatch();
@@ -13,13 +14,15 @@ function EventForm() {
     const [event_date, setEventDate] = useState("");
     const [event_time, setEventTime] = useState("");
     const [event_details, setEventDetails] = useState("");
-    const [estimated_cost, setEstimatedCost] = useState("");
-    const [predicted_revenue, setPredictedRevenue] = useState("");
+    const [estimated_cost, setEstimatedCost] = useState(0.00);
+    const [predicted_revenue, setPredictedRevenue] = useState(0.00);
     const [privateEvent, setPrivateEvent] = useState(false);
     const [owner_id, setOwnerId] = useState(user.id);
+    const [errors, setErrors] = useState([])
+    const { closeModal } = useModal();
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const isFormValid = (name, date, time) => {
@@ -27,14 +30,11 @@ function EventForm() {
             else return false
         }
 
-        if (isFormValid(event_name, event_date, event_time)) {
-            // const date = new Date(event_date);
-            const formatTime = (timeString) => {
-                const time = new Date(`1970-01-01T${timeString}`);
-                const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit', hour12: false})
-                return formattedTime
-            };
+        if (event_name.trim() == "") setErrors(["Must enter a valid name"])
+        if (event_date.trim() == "") setErrors(["Must enter a valid date"])
+        if (event_time.trim() == "") setErrors(["Must enter a valid time"])
 
+        if (isFormValid(event_name, event_date, event_time)) {
             const formattedEvent = {
                 event_name,
                 event_date,
@@ -45,21 +45,27 @@ function EventForm() {
                 privateEvent,
                 owner_id
             }
-            console.log('formattedEvent', formattedEvent)
-            dispatch(eventActions.createEvent(formattedEvent))
-            .then((data) => {
-                console.log("Event created:", data);
-            })
-            .catch((error) => {
-                console.error("Error creating event:", error)
-            });
+            try {
+
+                const data = await dispatch(eventActions.createEvent(formattedEvent))
+                if (data) {
+                    setErrors(data)
+                } else {
+                    closeModal();
+                }
+            } catch (error) {
+                setErrors([error.message]);
+            }
         }
     };
 
     const isFormValid = () => {
-        
-        if (event_name.trim() !== "" && event_date.trim() !== "" && event_time.trim() !== "") return true
-        else return false
+
+        return (
+            event_name.trim() !== "" &&
+            event_date.trim() !== "" &&
+            event_time.trim() !== ""
+        );
     }
 
     return (
@@ -67,6 +73,13 @@ function EventForm() {
 
             <h1>Create Event</h1>
             <form onSubmit={handleSubmit}>
+                {errors.length > 0 && (
+                    <ul>
+                        {errors.map((error, index) => (
+                            <li key={index}>{error}</li>
+                        ))}
+                    </ul>
+                )}
                 <input
                     type="text"
                     name="event_name"
@@ -120,7 +133,7 @@ function EventForm() {
                 <button type="submit" disabled={!isFormValid()}>Create Event</button>
             </form>
         </div>
-    )
+    );
 }
 
 export default EventForm

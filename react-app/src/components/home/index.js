@@ -7,9 +7,19 @@ import Events from "../event";
 function HomePage() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
+    const events = useSelector((state) => state.event.events);
 
 
-    return user ? (
+    if (!events) {
+        dispatch(eventActions.getAllUserEvents());
+        return (
+            <div>
+                No events loaded
+            </div>
+        )
+    }
+
+    return user && events ? (
         <div>
             <Events/>
         </div>
