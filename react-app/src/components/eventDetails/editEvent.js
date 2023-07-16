@@ -1,26 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom'
+import React, { useState } from "react";
+import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import * as eventActions from "../../store/event";
-import './CreateEventForm.css'
+import './editEvent.css'
 import { useModal } from "../../context/Modal";
 
-function EventForm() {
+function EditEventForm({event}) {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [event_id, setEventId] = useState(event.id)
+    console.log(event_id)
     const user = useSelector((state) => state.session.user);
-    const [event_name, setEventName] = useState("");
-    const [event_date, setEventDate] = useState("");
-    const [event_time, setEventTime] = useState("");
-    const [event_details, setEventDetails] = useState("");
-    const [estimated_cost, setEstimatedCost] = useState(0.00);
-    const [predicted_revenue, setPredictedRevenue] = useState(0.00);
-    const [privateEvent, setPrivateEvent] = useState(false);
-    const [owner_id, setOwnerId] = useState(user.id);
+    const [event_name, setEventName] = useState(event.event_name);
+    const [event_date, setEventDate] = useState(event.event_date);
+    const [event_time, setEventTime] = useState(event.event_time);
+    const [event_details, setEventDetails] = useState(event.event_details);
+    const [estimated_cost, setEstimatedCost] = useState(event.estimated_cost);
+    const [predicted_revenue, setPredictedRevenue] = useState(event.predicted_revenue);
+    const [privateEvent, setPrivateEvent] = useState(event.private);
+    const [owner_id, setOwnerId] = useState(event.owner_id);
     const [errors, setErrors] = useState([])
     const { closeModal } = useModal();
 
-
+    function formatDate(date) {
+        const [year, month, day] = date.split('-');
+        console.log('this is year', year)
+        console.log('this is motnh', month)
+        console.log('this is day', day)
+        return `${day}-${padZero(year)}-${padZero(month)}`;
+    }
+    function padZero(value) {
+        return value.length === 1 ? `${value}` : value;
+    }
+    
+    if (event_date === event.event_date){
+        setEventDate(formatDate(event.event_date))
+        console.log('this is event date', event_date)
+        return;
+    }
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -33,8 +51,10 @@ function EventForm() {
         if (event_date.trim() == "") setErrors(["Must enter a valid date"])
         if (event_time.trim() == "") setErrors(["Must enter a valid time"])
 
+
         if (isFormValid(event_name, event_date, event_time)) {
             const formattedEvent = {
+                id: event_id,
                 event_name,
                 event_date,
                 event_time,
@@ -47,12 +67,11 @@ function EventForm() {
             console.log(formattedEvent)
             try {
 
-                const data = await dispatch(eventActions.createEvent(formattedEvent))
+                const data = await dispatch(eventActions.editEvent(formattedEvent))
                 if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)
                 } else {
                     closeModal();
-                    // history.push(`/event/${data.id}`);
                 }
             } catch (error) {
                 setErrors([error.message]);
@@ -69,10 +88,11 @@ function EventForm() {
         );
     }
 
+
     return (
         <div>
 
-            <h1>Create Event</h1>
+            <h1>Edit Event</h1>
             <form onSubmit={handleSubmit}>
                 {errors.length > 0 && (
                     <ul>
@@ -93,8 +113,10 @@ function EventForm() {
                     type="date"
                     name="event_date"
                     value={event_date}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    required
+                    onChange={(e) => {
+                        const newDate = e.target.value.trim() !== "" ? e.target.value : event.event_date;
+                        setEventDate(newDate)
+                    }}
                 />
                 <input
                     type="time"
@@ -131,10 +153,10 @@ function EventForm() {
                     <option value={false}>Public</option>
                     <option value={true}>Private</option>
                 </select>
-                <button type="submit" disabled={!isFormValid()}>Create Event</button>
+                <button type="submit" disabled={!isFormValid()}>Edit Event</button>
             </form>
         </div>
     );
 }
 
-export default EventForm
+export default EditEventForm

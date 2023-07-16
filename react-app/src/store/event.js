@@ -110,27 +110,39 @@ export const createEvent = (event) => async (dispatch) => {
 };
 
 export const editEvent = (event) => async (dispatch) => {
-    const res = await fetch(`/api/event/${event.id}`, {
-        method: "PUT",
-        body: JSON.stringify(
-            {
-                "event_name": event.event_name,
-                "event_date": event.event_name,
-                "event_time": event.event_time,
-                "event_details": event.event_details,
-                "estimated_cost": event.estimated_cost,
-                "predicted_revenue": event.predicted_revenue,
-                "private": event.private
-            }
-        )
-    });
-    if (res.ok) {
+    try {
+
+        const res = await fetch(`/api/event/${event.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    event_name: event.event_name,
+                    event_date: event.event_date,
+                    event_time: event.event_time,
+                    event_details: event.event_details,
+                    estimated_cost: event.estimated_cost,
+                    predicted_revenue: event.predicted_revenue,
+                    private: event.privateEvent.toString()
+                }
+            )
+        });
+        if (!res.ok) {
+            const errorData = await res.json();
+            const errorMessages = errorData.errors;
+            throw new Error(JSON.stringify(errorMessages));
+        }
+
         const data = await res.json();
-        dispatch(updateEvent(data));
-        return data
-    } else {
-        const error = await res.json()
-        return error
+        console.log('this is data ----', data)
+        console.log('this is res', res)
+        dispatch(byIdGetEvent(event.id));
+        return data;
+    } catch (error) {
+        console.log(error)
+        return JSON.parse(error.message);
     }
 };
 

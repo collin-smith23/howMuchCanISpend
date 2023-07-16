@@ -128,7 +128,7 @@ def event_by_id(id):
                     return event.to_dict(), 202
                 else:
                     errors = form.errors
-                    return {"errors": error for error in errors}
+                    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
             else :
                 return {'error': 'Permissions Not Valid'}
         elif request.method == 'DELETE':
