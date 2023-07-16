@@ -1,27 +1,39 @@
 .home-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
     border: 1px solid black;
+    border-radius: 10%;
     width: 40%;
     height: 600px;
     margin-top: 15rem;
+    margin-left: 30px;
+    position: relative;
 }
 
 .event-box {
     width: 100%;
-    padding: 20px;
+    padding: 35px;
     background-color: #f2f2f2;
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
+    max-height: 498px;
+    position: relative;
 }
 
 .event {
     display: flex;
 }
 
+.event :hover {
+    cursor: pointer;
+}
+
 .category {
     flex: 1 1 33.33%;
     margin-right: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .category-title {
@@ -36,4 +48,24 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+.line {
+    display: block;
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 1;
 }

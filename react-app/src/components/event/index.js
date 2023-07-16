@@ -20,7 +20,7 @@ function Events() {
     };
 
     useEffect(() => {
-        
+
         if (user) {
             dispatch(eventActions.getAllUserEvents());
         } else {
@@ -44,10 +44,26 @@ function Events() {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
-    
+    const handleEventClick = (eventId) => {
+        history.push(`/event/${eventId}`);
+    };
+
+
     return events ? (
         <div className="home-container">
+            <h2 className="title">Events</h2>
             <div className="event-box">
+                <div className="event">
+                    <div className="category">
+                        <div className="category-title">Event Name</div>
+                    </div>
+                    <div className="category">
+                        <div className="category-title">Date</div>
+                    </div>
+                    <div className="category">
+                        <div className="category-title">Revenue</div>
+                    </div>
+                </div>
                 {Object.values(events).map((event) => {
                     const { estimated_cost, predicted_revenue } = event;
                     let result = null;
@@ -64,20 +80,20 @@ function Events() {
                     }
 
                     return (
-                        <div className="event">
+                        <>
+                        <div className="event" key={event.id} onClick={() => handleEventClick(event.id)}>
                             <div className="category">
-                                <div className="category-title">Event Name</div>
                                 <div className="category-element">{event.event_name}</div>
                             </div>
                             <div className="category">
-                                <div className="category-title">Date</div>
                                 <div className="category-element">{event.event_date}</div>
                             </div>
                             <div className="category">
-                                <div className="category-title">Revenue</div>
                                 <div className="category-element">{result}</div>
                             </div>
                         </div>
+                        <span className="line"></span>
+                        </>
                     );
                 })}
                 <div className="create-event-button">
