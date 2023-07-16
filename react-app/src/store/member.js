@@ -27,7 +27,7 @@ const updateMember = (member) => ({
 
 const removeMember = (member) => ({
     type: REMOVE_MEMBER,
-    payload, member
+    payload: member
 });
 
 export const getAllMembers = (eventId) => async (dispatch) => {
@@ -108,6 +108,9 @@ export const editMember = (eventId, member) => async (dispatch) => {
             const errorMessages = errorData.errors;
             throw new Error(JSON.stringify(errorMessages));
         }
+        const data = await res.json();
+        dispatch(getAllMembers(eventId));
+        return data;
     } catch (error) {
         console.log(error)
         return JSON.parse(error.message)

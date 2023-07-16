@@ -1,0 +1,25 @@
+.members-container {
+    height: 400px;
+    width: 200px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.members-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-radius: 20px;
+}
+
+.element {
+    padding: 10px;
+}
+
+.non-member {
+    padding: 10px;
+    color: red;
+}

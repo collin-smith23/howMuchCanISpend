@@ -3,6 +3,7 @@ import { useParams, useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { byIdGetEvent, deleteEvent, editEvent, getAllEvents } from '../../store/event';
 import './eventDetails.css'
+import Members from '../members';
 import EditEventForm from './editEvent';
 import OpenModalButton from '../OpenModalButton';
 import ConfirmDelete from '../confirmations/confirmDelete';
@@ -14,7 +15,6 @@ function EventDetails() {
     const event = useSelector((state) => state.event);
     const user = useSelector((state) => state.session.user);
     const eventId = useParams().eventId;
-    console.log(eventId)
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
     const { closeModal } = useModal()
@@ -66,6 +66,9 @@ function EventDetails() {
             <div>{event.event_name}</div>
             <div>{event.event_date}</div>
             <div>{event.event_time}</div>
+            <div className='members'>
+            < Members />
+            </div>
             <div>{event.event_details}</div>
             <div>{event.owner_id}</div>
             <div className='delete-button'>
