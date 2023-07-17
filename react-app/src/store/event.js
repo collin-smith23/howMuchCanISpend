@@ -1,8 +1,6 @@
 const GET_USER_EVENTS = "events/GET_USER_EVENTS";
 const GET_EVENTS = "events/GET_EVENTS";
 const GET_EVENT_BY_ID = "events/GET_EVENT_BY_ID";
-const ADD_EVENT = "events/ADD_EVENT";
-const UPDATE_EVENT = "events/UPDATE_EVENT";
 const REMOVE_EVENT = "events/REMOVE_EVENT";
 
 
@@ -22,15 +20,6 @@ const getEventById = (event) => ({
     payload: event
 });
 
-// const addEvent = (event) => ({
-//     type: ADD_EVENT,
-//     payload: event
-// });
-
-const updateEvent = (event) => ({
-    type: UPDATE_EVENT,
-    payload: event
-});
 
 const removeEvent = (event) => ({
     type: REMOVE_EVENT,
@@ -169,10 +158,6 @@ export default function event(state = initialState, action) {
         case GET_EVENTS:
             return { ...newState, events: action.payload }
         case GET_EVENT_BY_ID:
-            return { ...action.payload }
-        case ADD_EVENT:
-            return { ...newState, event: action.payload }
-        case UPDATE_EVENT:
             return { ...action.payload }
         case REMOVE_EVENT:
             return { ...newState, event: {} }

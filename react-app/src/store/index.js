@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session'
 import event from './event';
 import member from './member';
+import task from './task';
 
 const rootReducer = combineReducers({
   session,
   event,
-  member
+  member,
+  task
 });
 
 
