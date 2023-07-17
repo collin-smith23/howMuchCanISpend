@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as taskActions from "../../store/task";
 import { useModal } from "../../context/Modal";
 
-function EditTaskForm({ task, eventId}) {
+function EditTaskForm({ task, eventId }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [task_id, settaskId] = useState(task.id)
@@ -91,58 +91,73 @@ function EditTaskForm({ task, eventId}) {
 
 
     return (
-        <div>
-
+        <div className="form-container">
             <h1>Edit Task</h1>
             <form onSubmit={handleSubmit}>
                 {errors.length > 0 && (
-                    <ul>
+                    <ul className="error-list">
                         {errors.map((error, index) => (
                             <li key={index}>{error}</li>
                         ))}
                     </ul>
                 )}
-                <input
-                    type="text"
-                    name="task_name"
-                    placeholder="Task Name"
-                    value={task_name}
-                    onChange={(e) => setTaskName(e.target.value)}
-                    required
-                />
-                <input
-                    type="date"
-                    name="task_date"
-                    value={task_date}
-                    onChange={(e) => {
-                        const newDate = e.target.value.trim() !== "" ? e.target.value : task.task_date;
-                        setTaskDate(newDate)
-                    }}
-                />
-                <input
-                    type="time"
-                    name="task_time"
-                    value={task_time}
-                    onChange={(e) => setTaskTime(e.target.value)}
-                    required
-                />
-                <textarea
-                    name="task_details"
-                    placeholder="task Details"
-                    value={task_details}
-                    onChange={(e) => setTaskDetails(e.target.value)}
-                ></textarea>
-                <select
-                    name="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                >
-                    <option value={"Pending"}>Pending</option>
-                    <option value={"Accepted"}>Accepted</option>
-                    <option value={"Complete"}>Complete</option>
-                </select>
-                <button type="submit" disabled={!isFormValid()}>Edit Event</button>
-                <button onClick={(e) => handleDelete(e)}>Delete</button>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        name="task_name"
+                        placeholder="Task Name"
+                        value={task_name}
+                        onChange={(e) => setTaskName(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="date"
+                        name="task_date"
+                        value={task_date}
+                        onChange={(e) => {
+                            const newDate = e.target.value.trim() !== "" ? e.target.value : task.task_date;
+                            setTaskDate(newDate);
+                        }}
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="time"
+                        name="task_time"
+                        value={task_time}
+                        onChange={(e) => setTaskTime(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <textarea
+                        name="task_details"
+                        placeholder="Task Details"
+                        value={task_details}
+                        onChange={(e) => setTaskDetails(e.target.value)}
+                    ></textarea>
+                </div>
+                <div className="form-group">
+                    <select
+                        name="status"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+                        <option value={"Pending"}>Pending</option>
+                        <option value={"Accepted"}>Accepted</option>
+                        <option value={"Complete"}>Complete</option>
+                    </select>
+                </div>
+                <div className="form-buttons">
+                    <button type="submit" className="submit-button" disabled={!isFormValid()}>
+                        Edit Event
+                    </button>
+                    <button type="button" className="delete-button" onClick={handleDelete}>
+                        Delete
+                    </button>
+                </div>
             </form>
         </div>
     );

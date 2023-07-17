@@ -15,20 +15,6 @@ const getMember = (member) => ({
     payload: member
 })
 
-const addMember = (member) => ({
-    type: ADD_MEMBER,
-    payload: member
-});
-
-const updateMember = (member) => ({
-    type: UPDATE_MEMBER,
-    payload: member
-});
-
-const removeMember = (member) => ({
-    type: REMOVE_MEMBER,
-    payload: member
-});
 
 export const getAllMembers = (eventId) => async (dispatch) => {
     try {
@@ -143,13 +129,6 @@ export default function member(state = initialState, action) {
             return {...newState, members: action.payload}
         case GET_MEMBER: 
             return {...action.payload}
-        case ADD_MEMBER:
-            return {...newState, member: action.payload}
-        case UPDATE_MEMBER:
-            return {...action.payload}
-        case REMOVE_MEMBER:
-            return {...newState, member: {}}
-
         default:
             return state
     }

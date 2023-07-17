@@ -4,7 +4,7 @@ import { createMember } from "../../store/member";
 import { usersList } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux"
 
-function AddMember({users, members, eventId, closeModal}) {
+function AddMember({ users, members, eventId, closeModal }) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
 
@@ -29,20 +29,24 @@ function AddMember({users, members, eventId, closeModal}) {
         <div className="user-list-container">
             {filteredUsers.map((user) => {
                 return (
-                    <div key={user.id} className="users-container" onClick={() => handleAddMember(user)}  >
-                    <div key={user.id} className="element">
-                        {user.name}
+                    <div
+                        key={user.id}
+                        className="users-container"
+                        onClick={() => handleAddMember(user)}
+                    >
+                        <div className="element">
+                            {user.name}
+                        </div>
+                        <div className="element">
+                            {user.username}
+                        </div>
                     </div>
-                    <div className="element">
-                        {user.username}
-                    </div>
-                    </div>
-                )
+                );
             })}
         </div>
     ) : (
         <div>No available users to add</div>
-    )
+    );
 }
 
 export default AddMember

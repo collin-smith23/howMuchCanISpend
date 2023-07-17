@@ -1,25 +1,40 @@
 .members-container {
-    height: 400px;
-    width: 200px;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .members-box {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    border-radius: 20px;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
 }
 
 .element {
-    padding: 10px;
+    flex: 1;
+    padding: 5px;
+}
+
+select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+select:focus {
+    outline: none;
 }
 
 .non-member {
     padding: 10px;
     color: red;
+}
+
+.member-button {
+    font-weight: 600;
 }

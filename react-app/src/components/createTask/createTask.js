@@ -5,7 +5,7 @@ import * as taskActions from "../../store/task";
 import { useModal } from "../../context/Modal";
 import './createTask.css'
 
-function CreateTaskForm({members, eventId}) {
+function CreateTaskForm({ members, eventId }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const user = useSelector((state) => state.session.user);
@@ -70,69 +70,82 @@ function CreateTaskForm({members, eventId}) {
 
 
     return (
-        <div>
-
-            <h1>Edit Task</h1>
+        <div className="form-container">
+            <h1>Create Task</h1>
             <form onSubmit={handleSubmit}>
                 {errors.length > 0 && (
-                    <ul>
+                    <ul className="error-list">
                         {errors.map((error, index) => (
                             <li key={index}>{error}</li>
                         ))}
                     </ul>
                 )}
-                <input
-                    type="text"
-                    name="task_name"
-                    placeholder="Task Name"
-                    value={task_name}
-                    onChange={(e) => setTaskName(e.target.value)}
-                    required
-                />
-                <input
-                    type="date"
-                    name="task_date"
-                    value={task_date}
-                    onChange={(e) => {
-                        const newDate = e.target.value.trim() !== "" ? e.target.value : task_date;
-                        setTaskDate(newDate)
-                    }}
-                />
-                <input
-                    type="time"
-                    name="task_time"
-                    value={task_time}
-                    onChange={(e) => setTaskTime(e.target.value)}
-                    required
-                />
-                <textarea
-                    name="task_details"
-                    placeholder="task Details"
-                    value={task_details}
-                    onChange={(e) => setTaskDetails(e.target.value)}
-                ></textarea>
-                <select
-                    name="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                >
-                    <option value={"Pending"}>Pending</option>
-                    <option value={"Accepted"}>Accepted</option>
-                    <option value={"Complete"}>Complete</option>
-                </select>
-                <select
-                    name="Assign a user"
-                    value={assigned_to}
-                    onChange={(e) => setAssignedTo(e.target.value)}
-                >
-                    <option value="">Assign a user</option>
-                    {members.map((member) => (
-                        <option key={member.user_id} value={member.user_id}>
-                            {member.username}
-                        </option>
-                    ))}
-                </select>
-                <button type="submit" disabled={!isFormValid()}>Create Task</button>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        name="task_name"
+                        placeholder="Task Name"
+                        value={task_name}
+                        onChange={(e) => setTaskName(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="date"
+                        name="task_date"
+                        value={task_date}
+                        onChange={(e) => {
+                            const newDate = e.target.value.trim() !== "" ? e.target.value : task_date;
+                            setTaskDate(newDate);
+                        }}
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="time"
+                        name="task_time"
+                        value={task_time}
+                        onChange={(e) => setTaskTime(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <textarea
+                        name="task_details"
+                        placeholder="Task Details"
+                        value={task_details}
+                        onChange={(e) => setTaskDetails(e.target.value)}
+                    ></textarea>
+                </div>
+                <div className="form-group">
+                    <select
+                        name="status"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+                        <option value={"Pending"}>Pending</option>
+                        <option value={"Accepted"}>Accepted</option>
+                        <option value={"Complete"}>Complete</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <select
+                        name="assigned_to"
+                        value={assigned_to}
+                        onChange={(e) => setAssignedTo(e.target.value)}
+                    >
+                        <option value="">Assign a user</option>
+                        {members.map((member) => (
+                            <option key={member.user_id} value={member.user_id}>
+                                {member.username}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit" className="submit-button" disabled={!isFormValid()}>
+                    Create Task
+                </button>
             </form>
         </div>
     );

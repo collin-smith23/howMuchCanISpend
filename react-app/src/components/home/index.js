@@ -29,12 +29,11 @@ function HomePage() {
             </div>
         <div className="home-container">
             <div className="event-container">
-                <h2 className="title">Events</h2>
                 <Events />
             </div>
             <div className="finance-container">
-                <h1 className="title">Finance</h1>
-                <div className="home-element">Feature Coming SOON</div>
+                <h2 className="title-finance">Finance</h2>
+                <div className="title-finance">Feature Coming SOON</div>
             </div>
         </div>
         </div>

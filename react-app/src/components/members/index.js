@@ -45,7 +45,8 @@ function Members({members}) {
     return isUserMember ? (
         <div className='member-button'>
             <OpenModalButton
-                buttonText={members.length}
+                buttonText={`Members: ${members.length}`}
+                className='member-button'
                 onItemClick={openMenu}
                 modalComponent={<DisplayMembers members={members} eventId={eventId} closeModal={closeModal} />}
             />

@@ -102,8 +102,8 @@ function Events() {
             </div>
         </div>
     ) : (
-        <>
-            <div>No events created yet</div>
+        <div className="no-event-box">
+            <div className="no-events">No events created yet</div>
             <div className="create-event-button">
                 <OpenModalButton
                     buttonText="Create Event"
@@ -111,7 +111,7 @@ function Events() {
                     modalComponent={<EventForm />}
                     />
             </div>
-        </>
+        </div>
     );
 }
 

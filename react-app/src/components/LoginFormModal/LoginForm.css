@@ -54,3 +54,19 @@
 .login-back button[type="submit"]:hover {
     background-color: #0052a3;
 }
+
+.demo-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #85c2ff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.demo-btn:hover {
+    background-color: #0076ecec;
+}

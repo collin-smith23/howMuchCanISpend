@@ -10,8 +10,8 @@
         margin-top: 1rem;
     }
     .finance-container {
-        margin-top: 1rem;
-        top: 1rem
+        margin-top: 10%;
+        top: 10%
     }
     .event-container {
         width: 100%;
@@ -40,20 +40,24 @@
     border-radius: 10%;
     width: 48%;
     height: 600px;
-    position: relative;
     margin: 0 auto;
 }
 
 .home-element {
     justify-content: center;
     align-content: center;
-    margin-left: 40%;
+    margin-left: 28%;
+    font-weight: 600;
+    font-size: 24px;
 }
 
-.title {
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
+.title-finance {
+    margin-bottom: 10%;
+    padding-bottom: 10%;
+    align-self: center;
 }
+
+
 
 .task-box {
     border: 1px solid black;

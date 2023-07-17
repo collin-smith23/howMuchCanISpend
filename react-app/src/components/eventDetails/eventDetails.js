@@ -31,7 +31,7 @@ function EventDetails() {
     const users = useSelector((state) => state.session.users);
 
     useEffect(() => {
-        if (user){
+        if (user) {
             dispatch(usersList())
         } else {
             return <div>Must be logged in to view</div>
@@ -40,7 +40,7 @@ function EventDetails() {
     }, [dispatch, user]);
 
     useEffect(() => {
-        if (user){
+        if (user) {
             dispatch(taskActions.getEventTask(eventId))
         }
     }, [dispatch, user])
@@ -86,7 +86,7 @@ function EventDetails() {
         if (!members) {
             return false;
         }
-        const userRole = members.find((member)=> member.user_id === user.id)?.role
+        const userRole = members.find((member) => member.user_id === user.id)?.role
         return userRole === "admin" || userRole === "owner" || userRole === "guest"
     }
 
@@ -106,7 +106,7 @@ function EventDetails() {
 
     const handleConfirmDelete = () => {
         dispatch(deleteEvent(eventId))
-        dispatch(getAllEvents())
+        dispatch(getAllEvents(user))
         closeModal()
         history.push('/')
     }
@@ -115,90 +115,98 @@ function EventDetails() {
         closeModal()
     }
 
+    if (!user) {
+            return history.push('/')
+    }
+
+
     return event && event.id ? (
-        <div>
-            <div>{event.event_name}</div>
-            <div>{event.event_date}</div>
-            <div>{event.event_time}</div>
-            <div className='members'>
-                < Members members={members} />
-            </div>
-            <div>{event.event_details}</div>
-            <div>{event.owner_id}</div>
-            {user.id === event.owner_id && (
-                <div className='delete-button'>
-                    <OpenModalButton
-                        buttonText="Delete Event"
-                        onItemClick={openMenu}
-                        modalComponent={<ConfirmDelete onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />}
-                    />
+        <div className="event-page">
+            <div className="event-details">
+                <div className='upper-right'>
+                    <div className="event-date">{event.event_date}</div>
+                    <div className="event-time">{event.event_time}</div>
                 </div>
-            )}
-            {isAdmin() && (
-                <>
-                <div className='edit-button'>
-                <OpenModalButton
-                    buttonText="Edit Event"
-                    onItemClick={openMenu}
-                    modalComponent={<EditEventForm event={event} />}
-                    />
-                </div>
-                <div className='add-members-button'>
-                <OpenModalButton
-                buttonText="Add Members"
-                onItemClick={openMenu}
-                modalComponent={<AddMember users={users} members={members} eventId={eventId} closeModal={closeModal}/>}
-                />
-                </div>
-                <div className='add-task-button'>
-                    <OpenModalButton
-                    buttonText="Add a Task"
-                    onItemClick={openMenu}
-                    modalComponent={<CreateTaskForm members={members} eventId={eventId}/>}
-                    />
-                </div>
-                </>
-            )}
-            {isMember() && tasks && (
-                <>
-                {Object.values(tasks).map((task) => {
-                    console.log('this is task', task)
-                    const taskId = task.id;
-                const created = task.owner_id === user.id;
-                return (
-                    <div className="task-row" key={taskId}>
-                        <div className="task-details">
-                            <div className="task-el">{task.task_name}</div>
-                            <div className="task-el">{task.task_date}</div>
-                            <div className="task-el">{task.task_time}</div>
-                            <div className="task-el">{task.task_details}</div>
-                            <div className="task-el">{task.status}</div>
-                            <div className="task-owner">
-                                {created ? <div>You created</div> : <div>Assigned to you</div>}
+                <div className="event-info">
+                    <div className="event-title">{event.event_name}</div>
+
+
+                    {isAdmin() && (
+                        <div className='buttons'>
+
+                            <div className="guest-count">
+                                <Members className="members" members={members} />
                             </div>
-                            <>
-                            <OpenModalButton
-                                buttonText="Edit"
-                                onItemClick={openMenu}
-                                modalComponent={<EditTaskForm
-                                    task={task}
-                                    eventId={eventId}
-                                    />}/>
-                                    </>
+                            <div className="edit-button">
+                                <OpenModalButton
+                                    buttonText="Edit Event"
+                                    onItemClick={openMenu}
+                                    modalComponent={<EditEventForm event={event} />}
+                                />
+                            </div>
+                            {user.id === event.owner_id && (
+                                <div className="delete-button-1">
+                                    <OpenModalButton
+                                        buttonText="Delete Event"
+                                        onItemClick={openMenu}
+                                        modalComponent={<ConfirmDelete onConfirm={handleConfirmDelete} onCancel={handleCancelDelete} />}
+                                    />
+                                </div>
+                            )}
+                            <div className="add-members-button">
+                                <OpenModalButton
+                                    buttonText="Add Members"
+                                    onItemClick={openMenu}
+                                    modalComponent={<AddMember users={users} members={members} eventId={eventId} closeModal={closeModal} />}
+                                />
+                            </div>
+                            <div className="add-task-button">
+                                <OpenModalButton
+                                    buttonText="Add a Task"
+                                    onItemClick={openMenu}
+                                    modalComponent={<CreateTaskForm members={members} eventId={eventId} />}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    )
-                })}
-                </>
-            )}
+                    )}
+                </div>
+                <div className="event-description">{event.event_details}</div>
+            </div>
+            <div className="task-section">
+                {isMember() && tasks && (
+                    <>
+                        {Object.values(tasks).map((task) => {
+                            const taskId = task.id;
+                            const created = task.owner_id === user.id;
+                            return (
+                                <div className="task-row" key={taskId}>
+                                    <div className="task-details">
+                                        <div className="task-el">{task.task_name}</div>
+                                        <div className="task-el">{task.task_date}</div>
+                                        <div className="task-el">{task.task_time}</div>
+                                        <div className="task-el-details">{task.task_details}</div>
+                                        <div className="task-el">{task.status}</div>
+                                        <div className="task-owner">
+                                            <OpenModalButton
+                                            buttonText="Edit Task"
+                                            onItemClick={openMenu}
+                                            modalComponent={<EditTaskForm task={task} eventId={eventId}/>}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </>
+                )}
+                {!tasks && (
+                    <h3 className='task-details'>No Task Yet</h3>
+                )}
+            </div>
         </div>
     ) : (
-        <div>
-            No event with ID
-        </div>
-    )
-
-
-};
+        <div>No event with ID</div>
+    );
+}
 
 export default EventDetails

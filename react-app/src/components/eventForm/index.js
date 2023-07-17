@@ -70,68 +70,85 @@ function EventForm() {
     }
 
     return (
-        <div>
-
+        <div className="form-container">
             <h1>Create Event</h1>
             <form onSubmit={handleSubmit}>
                 {errors.length > 0 && (
-                    <ul>
+                    <ul className="error-list">
                         {errors.map((error, index) => (
                             <li key={index}>{error}</li>
                         ))}
                     </ul>
                 )}
-                <input
-                    type="text"
-                    name="event_name"
-                    placeholder="Event Name"
-                    value={event_name}
-                    onChange={(e) => setEventName(e.target.value)}
-                    required
-                />
-                <input
-                    type="date"
-                    name="event_date"
-                    value={event_date}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    required
-                />
-                <input
-                    type="time"
-                    name="event_time"
-                    value={event_time}
-                    onChange={(e) => setEventTime(e.target.value)}
-                    required
-                />
-                <textarea
-                    name="event_details"
-                    placeholder="Event Details"
-                    value={event_details}
-                    onChange={(e) => setEventDetails(e.target.value)}
-                ></textarea>
-                <input
-                    type="text"
-                    name="estimated_cost"
-                    placeholder="Estimated Cost"
-                    value={estimated_cost}
-                    onChange={(e) => setEstimatedCost(e.target.value)}
-                />
-                <input
-                    type="text"
-                    name="predicted_revenue"
-                    placeholder="Predicted Revenue"
-                    value={predicted_revenue}
-                    onChange={(e) => setPredictedRevenue(e.target.value)}
-                />
-                <select
-                    name="private"
-                    value={privateEvent}
-                    onChange={(e) => setPrivateEvent(e.target.value)}
-                >
-                    <option value={false}>Public</option>
-                    <option value={true}>Private</option>
-                </select>
-                <button type="submit" disabled={!isFormValid()}>Create Event</button>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        name="event_name"
+                        placeholder="Event Name"
+                        value={event_name}
+                        onChange={(e) => setEventName(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="date"
+                        name="event_date"
+                        value={event_date}
+                        onChange={(e) => setEventDate(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="time"
+                        name="event_time"
+                        value={event_time}
+                        onChange={(e) => setEventTime(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <textarea
+                        name="event_details"
+                        placeholder="Event Details"
+                        value={event_details}
+                        onChange={(e) => setEventDetails(e.target.value)}
+                    ></textarea>
+                </div>
+                <div className="form-group">
+                    <label>Estimated Cost</label>
+                    <input
+                        type="text"
+                        name="estimated_cost"
+                        placeholder="Estimated Cost"
+                        value={estimated_cost}
+                        onChange={(e) => setEstimatedCost(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                <label>Predicted Revenue</label>
+                    <input
+                        type="text"
+                        name="predicted_revenue"
+                        placeholder="Predicted Revenue"
+                        value={predicted_revenue}
+                        onChange={(e) => setPredictedRevenue(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <select
+                        name="private"
+                        value={privateEvent}
+                        onChange={(e) => setPrivateEvent(e.target.value)}
+                    >
+                        <option value={false}>Public</option>
+                        <option value={true}>Private</option>
+                    </select>
+                </div>
+                <button type="submit" className="submit-button" disabled={!isFormValid()}>
+                    Create Event
+                </button>
             </form>
         </div>
     );
