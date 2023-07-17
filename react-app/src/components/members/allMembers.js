@@ -13,16 +13,18 @@ function DisplayMembers({ members, eventId, closeModal }) {
         const newRole = e.target.value;
 
         if (newRole === 'delete') {
-            dispatch(memberActions.deleteMember(eventId, member.id));
-            closeModal();
+            const confirmed = window.confirm('Are you sure you want to delete this member?');
+            if (confirmed) {
+                dispatch(memberActions.deleteMember(eventId, member.id));
+            }
         } else {
             const formMember = {
                 id: member.id,
                 role: newRole
             };
             dispatch(memberActions.editMember(eventId, formMember));
-            closeModal();
         }
+        closeModal();
     };
 
     const isAdmin = () => {
