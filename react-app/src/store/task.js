@@ -78,7 +78,7 @@ export const createTask = (eventId, task) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
-        dispatch(getTaskById(eventId));
+        dispatch(getTaskId(data.id));
         return data;
     } catch (error) {
         return JSON.parse(error.message);
@@ -108,7 +108,7 @@ export const updateTask = (task) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
-        dispatch(getTaskById(eventId));
+        dispatch(getTaskId(task.id));
         return data;
     } catch (error) {
         return JSON.parse(error.message);
