@@ -78,7 +78,7 @@ export const createTask = (eventId, task) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
-        dispatch(getTaskId(data.id));
+        dispatch(getTaskId(task.id));
         return data;
     } catch (error) {
         return JSON.parse(error.message);
@@ -87,8 +87,8 @@ export const createTask = (eventId, task) => async (dispatch) => {
 
 export const updateTask = (task) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/event/task/${task.id}`, {
-            method: "POST",
+        const res = await fetch(`/api/task/${task.id}`, {
+            method: "PUT",
             headers: {
                 "Content-type": "application/json",
             },
@@ -108,6 +108,8 @@ export const updateTask = (task) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
+        console.log('this is data', data)
+        console.log('this is res', res)
         dispatch(getTaskId(task.id));
         return data;
     } catch (error) {

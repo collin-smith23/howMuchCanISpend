@@ -1,0 +1,64 @@
+.task-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 2%;
+}
+
+.task-el {
+    padding: 1px;
+}
+
+
+.task-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 95%;
+}
+
+.task-details {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 15%;
+    margin-top: 1%;
+}
+
+.task-detail-el {
+    overflow-y: auto;
+    max-width: 150px;
+}
+
+.task-owner {}
+
+.task-title {
+    position: absolute;
+    top: -7.5%;
+    left: 50%;
+    right: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.task-delete {
+    color: red;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 1%
+}
+
+.no-task {
+    margin-top: 8%;
+    margin-left: 35%;
+    align-self: center;
+    justify-content: space-around;
+    color: red;
+
+}
