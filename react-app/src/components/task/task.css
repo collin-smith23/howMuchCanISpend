@@ -3,12 +3,13 @@
     flex-direction: column;
     align-items: flex-start;
     margin-top: 2%;
+    font-weight: 600;
+    flex-wrap: wrap;
 }
 
 .task-el {
     padding: 1px;
 }
-
 
 .task-row {
     display: flex;
@@ -24,6 +25,14 @@
     justify-content: space-between;
     margin-left: 15%;
     margin-top: 1%;
+    overflow-x: auto;
+    /* Add overflow-x property for side-to-side scroll */
+    white-space: nowrap;
+    /* Prevent line breaks */
+}
+
+.edit-button {
+    cursor: pointer;
 }
 
 .task-detail-el {
@@ -31,7 +40,9 @@
     max-width: 150px;
 }
 
-.task-owner {}
+.task-el {
+    cursor: default;
+}
 
 .task-title {
     position: absolute;
@@ -51,7 +62,7 @@
     color: red;
     cursor: pointer;
     margin-left: 10px;
-    margin-top: 1%
+    margin-top: 1%;
 }
 
 .no-task {
@@ -60,5 +71,25 @@
     align-self: center;
     justify-content: space-around;
     color: red;
+}
 
+@media (max-width: 1000px) {
+    .task-details {
+        flex-wrap: nowrap;
+        margin-left: 0px;
+        /* Revert flex-wrap to nowrap for side-to-side scroll */
+    }
+
+    .task-details .task-el {
+        margin-right: 20px;
+        margin-left: 0px;
+        /* Increase the minimum space between elements */
+    }
+
+    .task-title {
+        position: static;
+        margin-bottom: 10px;
+        transform: translateX(-50%);
+        width: max-content;
+    }
 }

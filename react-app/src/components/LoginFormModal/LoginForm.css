@@ -1,0 +1,56 @@
+.login-back {
+    background-color: antiquewhite;
+}
+
+.login-back {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+}
+
+.login-back h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-back form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-back ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.login-back label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.login-back input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-back button[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0066cc;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-back button[type="submit"]:hover {
+    background-color: #0052a3;
+}

@@ -87,3 +87,27 @@
     z-index: 1;
 }
 
+@media (max-width: 1000px) {
+    .event-box {
+        flex-wrap: nowrap;
+        margin-left: 0px;
+        /* Revert flex-wrap to nowrap for side-to-side scroll */
+    }
+
+    .category .category-element {
+        margin-right: 20px;
+        margin-left: 0px;
+        /* Increase the minimum space between elements */
+    }
+
+    .event-container{
+        margin: 0
+    }
+
+    .category-title {
+        position: static;
+        margin-bottom: 10px;
+        transform: translateX(-50%);
+        width: max-content;
+    }
+}

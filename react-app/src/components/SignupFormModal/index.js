@@ -30,13 +30,23 @@ function SignupFormModal() {
 		}
 	};
 
+	const validateEmail = () => {
+		// Regular expression for email validation
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)) {
+			setErrors(['Please enter a valid email address']);
+		} else {
+			setErrors([]);
+		}
+	};
+
 	return (
-		<>
+		<div className="signup-back">
 			<h1>Sign Up</h1>
 			<form onSubmit={handleSubmit}>
 				<ul>
 					{errors.map((error, idx) => (
-						<li key={idx}>{error}</li>
+						<li className="error" key={idx}>{error}</li>
 					))}
 				</ul>
 				<label>
@@ -45,6 +55,7 @@ function SignupFormModal() {
 						type="text"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
+						onBlur={validateEmail}
 						required
 					/>
 				</label>
@@ -86,7 +97,7 @@ function SignupFormModal() {
 				</label>
 				<button type="submit">Sign Up</button>
 			</form>
-		</>
+		</div>
 	);
 }
 

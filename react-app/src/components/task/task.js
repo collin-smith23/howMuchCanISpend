@@ -60,14 +60,15 @@ function Tasks() {
                             <div className="task-owner">
                                 {created ? <div>You created</div> : <div>Assigned to you</div>}
                             </div>
-                            <>
+                            <div className='edit-button'>
                             <OpenModalButton
                                 buttonText="Edit"
+                                className='edit-button'
                                 onItemClick={openMenu}
                                 modalComponent={<EditTaskForm
                                     task={task}
                                     />}/>
-                                    </>
+                                    </div>
                         </div>
                     </div>
                 );
