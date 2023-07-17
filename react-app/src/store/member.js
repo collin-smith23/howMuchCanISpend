@@ -126,6 +126,9 @@ export const deleteMember = (eventId, memberId) => async (dispatch) => {
             const errorMessages = errorData.errors;
             throw new Error(JSON.stringify(errorMessages));
         }
+        const data = await res.json();
+        dispatch(getAllMembers(eventId));
+        return data;
     } catch (error) {
         console.log(error)
         return JSON.parse(error.message)

@@ -8,15 +8,21 @@ function DisplayMembers({ members, eventId, closeModal }) {
     const user = useSelector((state) => state.session.user);
     const dispatch = useDispatch();
 
-    
+
     const handleRoleChange = (e, member) => {
         const newRole = e.target.value;
-        const formMember = {
-            id: member.id,
-            role: newRole
-        };
-        dispatch(memberActions.editMember(eventId, formMember));
-        closeModal()
+
+        if (newRole === 'delete') {
+            dispatch(memberActions.deleteMember(eventId, member.id));
+            closeModal();
+        } else {
+            const formMember = {
+                id: member.id,
+                role: newRole
+            };
+            dispatch(memberActions.editMember(eventId, formMember));
+            closeModal();
+        }
     };
 
     const isAdmin = () => {
@@ -38,6 +44,7 @@ function DisplayMembers({ members, eventId, closeModal }) {
                                 <option value="owner">Owner</option>
                                 <option value="admin">Admin</option>
                                 <option value="guest">Guest</option>
+                                <option value="delete">Delete</option>
                             </select>
                         ) : (
                             member.role
