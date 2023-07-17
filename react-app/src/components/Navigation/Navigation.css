@@ -5,3 +5,16 @@
 .hidden {
   display: none;
 }
+
+.profile-button {
+  justify-items: flex-end;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 20px;
+  margin-left: 85%;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+}
