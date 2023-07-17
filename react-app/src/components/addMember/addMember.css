@@ -1,0 +1,8 @@
+.user-list-container {
+    background-color: white;
+}
+
+.users-container {
+    display: flex;
+    display: row;
+}

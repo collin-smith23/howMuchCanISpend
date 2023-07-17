@@ -3,6 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { byIdGetEvent, deleteEvent, editEvent, getAllEvents } from '../../store/event';
 import * as memberActions from "../../store/member";
+import AddMember from '../addMember/addMemberForm';
+import { usersList } from '../../store/session';
 import Members from '../members';
 import EditEventForm from './editEvent';
 import OpenModalButton from '../OpenModalButton';
@@ -19,7 +21,19 @@ function EventDetails() {
     const eventId = useParams().eventId;
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
-    const { closeModal } = useModal()
+    const { closeModal } = useModal();
+
+    const users = useSelector((state) => state.session.users);
+
+    useEffect(() => {
+        if (user){
+            dispatch(usersList())
+        } else {
+            return <div>Must be logged in to view</div>
+        }
+        console.log('this is users', users)
+    }, [dispatch, user]);
+
 
     const openMenu = () => {
         if (showMenu) return;
@@ -82,7 +96,7 @@ function EventDetails() {
         closeModal()
     }
 
-    return event.id ? (
+    return event && event.id ? (
         <div>
             <div>{event.event_name}</div>
             <div>{event.event_date}</div>
@@ -102,14 +116,24 @@ function EventDetails() {
                 </div>
             )}
             {isAdmin() && (
+                <>
                 <div className='edit-button'>
                 <OpenModalButton
                     buttonText="Edit Event"
                     onItemClick={openMenu}
                     modalComponent={<EditEventForm event={event} />}
                     />
-            </div>
-                    )}
+                </div>
+                <div className='add-members-button'>
+                <OpenModalButton
+                buttonText="Add Members"
+                onItemClick={openMenu}
+                modalComponent={<AddMember users={users} eventId={eventId} closeModal={closeModal} showMenu={showMenu}/>}
+                />
+                </div>
+                </>
+
+            )}
         </div>
     ) : (
         <div>

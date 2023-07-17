@@ -7,8 +7,8 @@ import OpenModalButton from '../OpenModalButton';
 function DisplayMembers({ members, eventId, closeModal }) {
     const user = useSelector((state) => state.session.user);
     const dispatch = useDispatch();
-    console.log(eventId)
 
+    
     const handleRoleChange = (e, member) => {
         const newRole = e.target.value;
         const formMember = {
