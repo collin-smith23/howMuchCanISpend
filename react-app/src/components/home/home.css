@@ -1,0 +1,34 @@
+.home-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15rem;
+}
+
+.event-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 1px solid black;
+    border-radius: 10%;
+    width: 48%;
+    height: 600px;
+    position: relative;
+    margin-left: 1%;
+}
+
+.finance-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 1px solid black;
+    border-radius: 10%;
+    width: 48%;
+    height: 600px;
+    position: relative;
+}
+
+.home-element {
+    justify-content: center;
+    align-content: center;
+    margin-left: 40%;
+}

@@ -50,24 +50,20 @@ function Events() {
 
 
     return events ? (
-        <div className="home-container">
+        <div className="event-contain">
             <h2 className="title">Events</h2>
             <div className="event-box">
-                <div className="event">
-                    <div className="category">
+                <div className="category-title-box">
                         <div className="category-title">Event Name</div>
-                    </div>
-                    <div className="category">
                         <div className="category-title">Date</div>
-                    </div>
-                    <div className="category">
                         <div className="category-title">Revenue</div>
-                    </div>
-                </div>
+                        </div>
+
+
                 {Object.values(events).map((event) => {
                     const { estimated_cost, predicted_revenue } = event;
                     let result = null;
-
+                    
                     if (estimated_cost && predicted_revenue) {
                         const difference = predicted_revenue - estimated_cost;
                         result = `$${difference.toFixed(2)}`;
@@ -78,7 +74,7 @@ function Events() {
                     } else if (!predicted_revenue && !estimated_cost) {
                         result = `$0.00`
                     }
-
+                    
                     return (
                         <>
                         <div className="event" key={event.id} onClick={() => handleEventClick(event.id)}>
@@ -101,7 +97,7 @@ function Events() {
                         buttonText="Create Event"
                         onItemClick={openMenu}
                         modalComponent={<EventForm />}
-                    />
+                        />
                 </div>
             </div>
         </div>
@@ -113,7 +109,7 @@ function Events() {
                     buttonText="Create Event"
                     onItemClick={openMenu}
                     modalComponent={<EventForm />}
-                />
+                    />
             </div>
         </>
     );

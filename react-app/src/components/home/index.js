@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as eventActions from "../../store/event";
 import OpenModalButton from "../OpenModalButton";
 import Events from "../event";
+import './home.css'
 
 function HomePage() {
     const dispatch = useDispatch();
@@ -20,14 +21,21 @@ function HomePage() {
     }
 
     return user && events ? (
-        <div>
-            <Events/>
+        <div className="home-container">
+            <div className="event-container">
+                <h2 className="title">Events</h2>
+                <Events />
+            </div>
+            <div className="finance-container">
+                <h1 className="title">Finance</h1>
+                <div className="home-element">Feature Coming SOON</div>
+            </div>
         </div>
     ) : (
         <div>
             Welcome!
         </div>
-    )
-};
+    );
+}
 
 export default HomePage
