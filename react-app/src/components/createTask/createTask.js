@@ -2,40 +2,23 @@ import React, { useState } from "react";
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import * as taskActions from "../../store/task";
-import './editTask.css'
 import { useModal } from "../../context/Modal";
+import './createTask.css'
 
-function EditTaskForm({ task }) {
+function CreateTaskForm({members, eventId}) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [task_id, settaskId] = useState(task.id)
-    console.log(task_id)
     const user = useSelector((state) => state.session.user);
-    const [task_name, setTaskName] = useState(task.task_name);
-    const [task_date, setTaskDate] = useState(task.task_date);
-    const [task_time, setTaskTime] = useState(task.task_time);
-    const [task_details, setTaskDetails] = useState(task.task_details);
-    const [status, setStatus] = useState(task.status);
-    const [assigned_to, setAssignedTo] = useState(task.assigned_to)
+    console.log('this is eventId', eventId)
+    const [task_name, setTaskName] = useState("");
+    const [task_date, setTaskDate] = useState("");
+    const [task_time, setTaskTime] = useState("");
+    const [task_details, setTaskDetails] = useState("");
+    const [status, setStatus] = useState("Pending");
+    const [assigned_to, setAssignedTo] = useState("");
     const [errors, setErrors] = useState([])
     const { closeModal } = useModal();
 
-    function formatDate(date) {
-        const [year, month, day] = date.split('-');
-        console.log('this is year', year)
-        console.log('this is motnh', month)
-        console.log('this is day', day)
-        return `${day}-${padZero(year)}-${padZero(month)}`;
-    }
-    function padZero(value) {
-        return value.length === 1 ? `${value}` : value;
-    }
-
-    if (task_date === task.task_date) {
-        setTaskDate(formatDate(task.task_date))
-        console.log('this is task date', task_date)
-        return;
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,7 +35,6 @@ function EditTaskForm({ task }) {
 
         if (isFormValid(task_name, task_date, task_time)) {
             const formattedTask = {
-                id: task_id,
                 task_name,
                 task_date,
                 task_time,
@@ -62,13 +44,13 @@ function EditTaskForm({ task }) {
             }
             try {
                 console.log('this is formatted task', formattedTask)
-                const data = await dispatch(taskActions.updateTask(formattedTask))
+                console.log('this is eventId again', eventId)
+                const data = await dispatch(taskActions.createTask(eventId, formattedTask))
                 if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)
                 } else {
+                    dispatch(taskActions.getEventTask(eventId))
                     closeModal();
-                    dispatch(taskActions.getAssignedTask());
-                    dispatch(taskActions.getCreatedTask());
                 }
             } catch (error) {
                 setErrors([error.message]);
@@ -81,14 +63,9 @@ function EditTaskForm({ task }) {
         return (
             task_name.trim() !== "" &&
             task_date.trim() !== "" &&
-            task_time.trim() !== ""
+            task_time.trim() !== "" &&
+            assigned_to.trim() !== ""
         );
-    }
-
-    const handleDelete = async (e) => {
-        e.preventDefault();
-        dispatch(taskActions.removeTask(task_id))
-        closeModal();
     }
 
 
@@ -117,7 +94,7 @@ function EditTaskForm({ task }) {
                     name="task_date"
                     value={task_date}
                     onChange={(e) => {
-                        const newDate = e.target.value.trim() !== "" ? e.target.value : task.task_date;
+                        const newDate = e.target.value.trim() !== "" ? e.target.value : task_date;
                         setTaskDate(newDate)
                     }}
                 />
@@ -143,11 +120,22 @@ function EditTaskForm({ task }) {
                     <option value={"Accepted"}>Accepted</option>
                     <option value={"Complete"}>Complete</option>
                 </select>
-                <button type="submit" disabled={!isFormValid()}>Edit Event</button>
-                <button onClick={(e) => handleDelete(e)}>Delete</button>
+                <select
+                    name="Assign a user"
+                    value={assigned_to}
+                    onChange={(e) => setAssignedTo(e.target.value)}
+                >
+                    <option value="">Assign a user</option>
+                    {members.map((member) => (
+                        <option key={member.user_id} value={member.user_id}>
+                            {member.username}
+                        </option>
+                    ))}
+                </select>
+                <button type="submit" disabled={!isFormValid()}>Create Task</button>
             </form>
         </div>
     );
 }
 
-export default EditTaskForm;
+export default CreateTaskForm;

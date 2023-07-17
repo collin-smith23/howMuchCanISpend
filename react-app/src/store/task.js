@@ -43,6 +43,18 @@ export const getAssignedTask = () => async (dispatch) => {
     }
 }
 
+export const getEventTask = (eventId) => async (dispatch) => {
+    const res = await fetch(`/api/event/${eventId}/task`);
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(getTasks(data));
+        return data
+    } else {
+        const error = await res.json()
+        return error
+    }
+}
+
 export const getTaskId = (taskId) => async (dispatch) => {
     const res = await fetch (`/api/task/${taskId}`);
     if (res.ok) {
@@ -78,7 +90,9 @@ export const createTask = (eventId, task) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
-        dispatch(getTaskId(task.id));
+        console.log('this is data', data)
+        console.log('this is res', res)
+        dispatch(getTaskId(data.id));
         return data;
     } catch (error) {
         return JSON.parse(error.message);

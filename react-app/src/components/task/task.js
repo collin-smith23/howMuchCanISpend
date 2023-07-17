@@ -48,7 +48,7 @@ function Tasks() {
             <h1 className="task-title">Tasks</h1>
             {Object.values(tasks).map((task) => {
                 const taskId = task.id;
-                const created = task.owner_id === user.userId;
+                const created = task.owner_id === user.id;
                 return (
                     <div className="task-row" key={taskId}>
                         <div className="task-details">

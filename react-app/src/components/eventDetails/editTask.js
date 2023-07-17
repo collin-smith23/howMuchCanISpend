@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import * as taskActions from "../../store/task";
-import './editTask.css'
 import { useModal } from "../../context/Modal";
 
-function EditTaskForm({ task }) {
+function EditTaskForm({ task, eventId}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [task_id, settaskId] = useState(task.id)
-    console.log(task_id)
     const user = useSelector((state) => state.session.user);
     const [task_name, setTaskName] = useState(task.task_name);
     const [task_date, setTaskDate] = useState(task.task_date);
@@ -67,8 +65,7 @@ function EditTaskForm({ task }) {
                     setErrors(data)
                 } else {
                     closeModal();
-                    dispatch(taskActions.getAssignedTask());
-                    dispatch(taskActions.getCreatedTask());
+                    dispatch(taskActions.getEventTask(eventId))
                 }
             } catch (error) {
                 setErrors([error.message]);
@@ -88,6 +85,7 @@ function EditTaskForm({ task }) {
     const handleDelete = async (e) => {
         e.preventDefault();
         dispatch(taskActions.removeTask(task_id))
+        dispatch(taskActions.getEventTask(eventId))
         closeModal();
     }
 
