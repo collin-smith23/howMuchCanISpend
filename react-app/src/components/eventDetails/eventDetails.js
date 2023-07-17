@@ -128,7 +128,7 @@ function EventDetails() {
                 <OpenModalButton
                 buttonText="Add Members"
                 onItemClick={openMenu}
-                modalComponent={<AddMember users={users} eventId={eventId} closeModal={closeModal} showMenu={showMenu}/>}
+                modalComponent={<AddMember users={users} members={members} eventId={eventId} closeModal={closeModal}/>}
                 />
                 </div>
                 </>

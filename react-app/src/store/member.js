@@ -55,9 +55,9 @@ export const getMemberId = (eventId, memberId) => async (dispatch) => {
             const errorMessages = errorData.errors;
             throw new Error(JSON.stringify(errorMessages))
         }
-            const data = await res.json();
-            dispatch(getMember(data));
-            return data
+        const data = await res.json();
+        dispatch(getMember(data));
+        return data
     } catch (error) {
         console.log(error)
         return JSON.parse(error.messsage)
@@ -76,14 +76,13 @@ export const createMember = (eventId, member) => async (dispatch) => {
                 role: member.role
             }),
         });
-
         if (!res.ok) {
             const errorData = await res.json();
             const errorMessages = errorData.errors;
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
-        dispatch(getMemberId(data.id));
+        dispatch(getAllMembers(eventId));
         return data;
     } catch (error) {
         console.log(error)

@@ -4,29 +4,44 @@ import { createMember } from "../../store/member";
 import { usersList } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux"
 
-function AddMember({users, eventId, closeModal, showMenu}) {
+function AddMember({users, members, eventId, closeModal}) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
 
+    const handleAddMember = (user) => {
+        const member = {
+            user_id: user.id,
+            role: "guest"
+        };
+        dispatch(createMember(eventId, member))
+        closeModal()
+    }
+
     if (!users) return <div>No Users</div>
 
-    return users? (
+    const existingMemberIds = members.map((member) => member.user_id);
+
+    const filteredUsers = Object.values(users.users).filter(
+        (user) => !existingMemberIds.includes(user.id)
+    );
+
+    return filteredUsers.length > 0 ? (
         <div className="user-list-container">
-            {Object.values(users.users).map((user) => {
+            {filteredUsers.map((user) => {
                 return (
-                    <div key={user.id} className="users-container"  >
+                    <div key={user.id} className="users-container" onClick={() => handleAddMember(user)}  >
                     <div key={user.id} className="element">
                         {user.name}
                     </div>
                     <div className="element">
-                        {user.id}
+                        {user.username}
                     </div>
                     </div>
                 )
             })}
         </div>
     ) : (
-        <div>No Users</div>
+        <div>No available users to add</div>
     )
 }
 
