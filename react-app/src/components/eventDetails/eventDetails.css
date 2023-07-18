@@ -80,6 +80,8 @@
 
 .task-el {
     margin-right: 10px;
+    max-width: 85px;
+    overflow-y: auto;
 }
 
 .task-el-details {
