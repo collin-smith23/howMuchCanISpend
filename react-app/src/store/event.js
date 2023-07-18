@@ -88,12 +88,9 @@ export const createEvent = (event) => async (dispatch) => {
         }
 
         const data = await res.json();
-        console.log('this is data ----', data)
-        console.log('this is res', res)
         dispatch(byIdGetEvent(data.id));
         return data;
     } catch (error) {
-        console.log(error)
         return JSON.parse(error.message);
     }
 };
@@ -125,12 +122,9 @@ export const editEvent = (event) => async (dispatch) => {
         }
 
         const data = await res.json();
-        console.log('this is data ----', data)
-        console.log('this is res', res)
         dispatch(byIdGetEvent(event.id));
         return data;
     } catch (error) {
-        console.log(error)
         return JSON.parse(error.message);
     }
 };

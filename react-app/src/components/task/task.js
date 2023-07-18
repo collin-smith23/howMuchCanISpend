@@ -70,7 +70,7 @@ function Tasks() {
                             key={taskId}
                             onClick={() => navigateToEvent(task.event_id)}
                             className="task-details" >
-                            <div className="task-el">{task.task_name}</div>
+                            <div className="task-el-title">{task.task_name}</div>
                             <div className="task-el">{task.task_date}</div>
                             <div className="task-el">{task.task_time}</div>
                             <div className="task-el">{task.task_details}</div>

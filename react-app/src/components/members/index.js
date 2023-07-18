@@ -25,7 +25,6 @@ function Members({members}) {
     useEffect(() => {
         if (members && members.length > 0) {
             setIsUserMember(members.some((member) => member.user_id === user.id));
-            console.log('isUserMember:', isUserMember);
         }
     }, [members, user]);
 

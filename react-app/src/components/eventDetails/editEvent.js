@@ -9,7 +9,6 @@ function EditEventForm({ event }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [event_id, setEventId] = useState(event.id)
-    console.log(event_id)
     const user = useSelector((state) => state.session.user);
     const [event_name, setEventName] = useState(event.event_name);
     const [event_date, setEventDate] = useState(event.event_date);
@@ -24,9 +23,6 @@ function EditEventForm({ event }) {
 
     function formatDate(date) {
         const [year, month, day] = date.split('-');
-        console.log('this is year', year)
-        console.log('this is motnh', month)
-        console.log('this is day', day)
         return `${day}-${padZero(year)}-${padZero(month)}`;
     }
     function padZero(value) {
@@ -35,7 +31,6 @@ function EditEventForm({ event }) {
 
     if (event_date === event.event_date) {
         setEventDate(formatDate(event.event_date))
-        console.log('this is event date', event_date)
         return;
     }
 
@@ -64,7 +59,6 @@ function EditEventForm({ event }) {
                 privateEvent,
                 owner_id
             }
-            console.log(formattedEvent)
             try {
 
                 const data = await dispatch(eventActions.editEvent(formattedEvent))

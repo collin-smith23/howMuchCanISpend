@@ -113,7 +113,22 @@ export const usersList = () => async (dispatch) => {
 		dispatch(getUsers(data));
 		return data;
 	} catch (error) {
-		console.log(error)
+		return JSON.parse(error.message)
+	}
+}
+
+export const userById = (userId) => async (dispatch) => {
+	try {
+		const res = await fetch(`/api/users/${userId}`)
+		if (!res.ok) {
+			const errorData = await res.json();
+			const errorMessages = errorData.errors;
+			throw new Error(JSON.stringify(errorMessages))
+		}
+		const data = await res.json();
+		dispatch(getUsers(data));
+		return data;
+	} catch (error) {
 		return JSON.parse(error.message)
 	}
 }

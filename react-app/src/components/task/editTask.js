@@ -9,7 +9,6 @@ function EditTaskForm({ task }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [task_id, settaskId] = useState(task.id)
-    console.log(task_id)
     const user = useSelector((state) => state.session.user);
     const [task_name, setTaskName] = useState(task.task_name);
     const [task_date, setTaskDate] = useState(task.task_date);
@@ -22,9 +21,6 @@ function EditTaskForm({ task }) {
 
     function formatDate(date) {
         const [year, month, day] = date.split('-');
-        console.log('this is year', year)
-        console.log('this is motnh', month)
-        console.log('this is day', day)
         return `${day}-${padZero(year)}-${padZero(month)}`;
     }
     function padZero(value) {
@@ -33,7 +29,6 @@ function EditTaskForm({ task }) {
 
     if (task_date === task.task_date) {
         setTaskDate(formatDate(task.task_date))
-        console.log('this is task date', task_date)
         return;
     }
 
@@ -61,7 +56,6 @@ function EditTaskForm({ task }) {
                 assigned_to
             }
             try {
-                console.log('this is formatted task', formattedTask)
                 const data = await dispatch(taskActions.updateTask(formattedTask))
                 if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)

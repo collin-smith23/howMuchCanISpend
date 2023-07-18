@@ -19,7 +19,6 @@ function EventDetails() {
     const dispatch = useDispatch();
     const history = useHistory();
     const event = useSelector((state) => state.event);
-    console.log('this is event', event)
     const user = useSelector((state) => state.session.user);
     const tasks = useSelector((state) => state.task.tasks.tasks);
     const members = useSelector((state) => state.member.members.members);
@@ -36,7 +35,6 @@ function EventDetails() {
         } else {
             return <div>Must be logged in to view</div>
         }
-        console.log('this is users', users)
     }, [dispatch, user]);
 
     useEffect(() => {
@@ -57,7 +55,6 @@ function EventDetails() {
     useEffect(() => {
         if (user) {
             dispatch(byIdGetEvent(eventId))
-            console.log(event)
         }
         else {
             return (
@@ -69,7 +66,7 @@ function EventDetails() {
     useEffect(() => {
         if (user) {
             dispatch(memberActions.getAllMembers(eventId));
-            console.log('this is members', members)
+
         } else {
             return (
                 <div>Must be logged in to view</div>
@@ -90,13 +87,10 @@ function EventDetails() {
             return false;
         }
         let isuser = members.find((member) => member.user_id === user.id)
-        console.log('this is userRole', isuser)
         if (isuser) {
-            console.log('yes')
             return true
         }
         else {
-            console.log('no')
             return false
         }
     }
@@ -129,7 +123,6 @@ function EventDetails() {
     if (!user) {
         return history.push('/')
     }
-
 
     return event && event.id ? (
         <div className="event-page">
@@ -195,6 +188,7 @@ function EventDetails() {
                                         <div className="task-el">{task.task_time}</div>
                                         <div className="task-el-details">{task.task_details}</div>
                                         <div className="task-el">{task.status}</div>
+                                        <div className='task-el'>Assigned to: {task.assigned_to}</div>
                                         <div className="task-owner">
                                             <OpenModalButton
                                                 buttonText="Edit Task"

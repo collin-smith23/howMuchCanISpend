@@ -9,7 +9,6 @@ function CreateTaskForm({ members, eventId }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const user = useSelector((state) => state.session.user);
-    console.log('this is eventId', eventId)
     const [task_name, setTaskName] = useState("");
     const [task_date, setTaskDate] = useState("");
     const [task_time, setTaskTime] = useState("");
@@ -43,8 +42,6 @@ function CreateTaskForm({ members, eventId }) {
                 assigned_to
             }
             try {
-                console.log('this is formatted task', formattedTask)
-                console.log('this is eventId again', eventId)
                 const data = await dispatch(taskActions.createTask(eventId, formattedTask))
                 if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)

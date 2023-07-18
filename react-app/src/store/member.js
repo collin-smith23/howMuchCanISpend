@@ -28,7 +28,6 @@ export const getAllMembers = (eventId) => async (dispatch) => {
             dispatch(getMembers(data));
             return data
         } catch (error) {
-            console.log(error)
             return JSON.parse(error.messsage)
         }
     }
@@ -45,7 +44,6 @@ export const getMemberId = (eventId, memberId) => async (dispatch) => {
         dispatch(getMember(data));
         return data
     } catch (error) {
-        console.log(error)
         return JSON.parse(error.messsage)
     }
 }
@@ -71,7 +69,6 @@ export const createMember = (eventId, member) => async (dispatch) => {
         dispatch(getAllMembers(eventId));
         return data;
     } catch (error) {
-        console.log(error)
         return JSON.parse(error.messsage);
     }
 };
@@ -97,7 +94,6 @@ export const editMember = (eventId, member) => async (dispatch) => {
         dispatch(getAllMembers(eventId));
         return data;
     } catch (error) {
-        console.log(error)
         return JSON.parse(error.message)
     }
 };
@@ -116,7 +112,6 @@ export const deleteMember = (eventId, memberId) => async (dispatch) => {
         dispatch(getAllMembers(eventId));
         return data;
     } catch (error) {
-        console.log(error)
         return JSON.parse(error.message)
     }
 };
