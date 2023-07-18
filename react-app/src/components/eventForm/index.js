@@ -44,7 +44,6 @@ function EventForm() {
                 privateEvent,
                 owner_id
             }
-            console.log(formattedEvent)
             try {
 
                 const data = await dispatch(eventActions.createEvent(formattedEvent))

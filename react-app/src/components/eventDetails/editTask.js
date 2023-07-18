@@ -20,9 +20,6 @@ function EditTaskForm({ task, eventId }) {
 
     function formatDate(date) {
         const [year, month, day] = date.split('-');
-        console.log('this is year', year)
-        console.log('this is motnh', month)
-        console.log('this is day', day)
         return `${day}-${padZero(year)}-${padZero(month)}`;
     }
     function padZero(value) {
@@ -31,7 +28,6 @@ function EditTaskForm({ task, eventId }) {
 
     if (task_date === task.task_date) {
         setTaskDate(formatDate(task.task_date))
-        console.log('this is task date', task_date)
         return;
     }
 
@@ -59,7 +55,6 @@ function EditTaskForm({ task, eventId }) {
                 assigned_to
             }
             try {
-                console.log('this is formatted task', formattedTask)
                 const data = await dispatch(taskActions.updateTask(formattedTask))
                 if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)

@@ -90,8 +90,6 @@ export const createTask = (eventId, task) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
-        console.log('this is data', data)
-        console.log('this is res', res)
         dispatch(getTaskId(data.id));
         return data;
     } catch (error) {
@@ -122,8 +120,6 @@ export const updateTask = (task) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = await res.json();
-        console.log('this is data', data)
-        console.log('this is res', res)
         dispatch(getTaskId(task.id));
         return data;
     } catch (error) {

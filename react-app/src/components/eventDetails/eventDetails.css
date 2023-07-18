@@ -51,9 +51,9 @@
     overflow-wrap: break-word;
     overflow-y: auto;
     max-width: 500px;
-    /* Adjust the max-width as needed */
+
     max-height: 200px;
-    /* Adjust the max-height as needed */
+
     padding: 10px;
     border-radius: 10px;
 }
@@ -75,24 +75,30 @@
     display: flex;
     align-items: center;
     gap: 80px;
-    /* Add spacing between elements */
 }
 
 .task-el {
     margin-right: 10px;
 }
 
+.task-el-title {
+    margin-right: 10px;
+    margin-left: -100px;
+    ;
+}
+
+
 .task-el-details {
     max-width: 250px;
-    /* Adjust the max-width as needed */
+
     overflow-y: auto;
     width: 250px;
-    /* Add a fixed width to align properly */
+
     max-height: 250px;
     padding: 5px;
-    /* Add some padding */
+
     margin-right: 10px;
-    /* Add some spacing between elements */
+
 }
 
 .edit-button,
@@ -117,7 +123,11 @@
     .event-details {
         flex-direction: column;
         align-items: center;
-        width: 800px;
+        width: 100%;
+        max-width: 800px;
+        /* Add this line */
+        margin: 0 auto;
+        /* Add this line to center the container */
     }
 
     .event-info {
@@ -127,11 +137,7 @@
     }
 
     .event-date,
-    .event-time {
-        margin-right: 0;
-        margin-bottom: 5px;
-    }
-
+    .event-time,
     .member-count {
         margin-right: 0;
         margin-bottom: 5px;
@@ -140,6 +146,16 @@
     .event-description {
         max-width: 100%;
         max-height: none;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttons>* {
+        margin-right: 0;
+        margin-bottom: 10px;
     }
 }
 
