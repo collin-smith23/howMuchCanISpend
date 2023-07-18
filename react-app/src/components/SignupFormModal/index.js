@@ -36,8 +36,10 @@ function SignupFormModal() {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			setErrors(['Please enter a valid email address']);
+			return false;
 		} else {
 			setErrors([]);
+			return true;
 		}
 	};
 
@@ -96,7 +98,7 @@ function SignupFormModal() {
 						required
 					/>
 				</label>
-				<button type="submit">Sign Up</button>
+				<button type="submit" disabled={errors.length > 0}>Sign Up</button>
 			</form>
 		</div>
 	);
