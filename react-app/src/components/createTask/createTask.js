@@ -12,6 +12,7 @@ function CreateTaskForm({ members, eventId }) {
     const [task_name, setTaskName] = useState("");
     const [task_date, setTaskDate] = useState("");
     const [task_time, setTaskTime] = useState("");
+    const [formSubmitted, setFormSubmitted] = useState(false);
     const [task_details, setTaskDetails] = useState("");
     const [status, setStatus] = useState("Pending");
     const [assigned_to, setAssignedTo] = useState("");
@@ -21,6 +22,7 @@ function CreateTaskForm({ members, eventId }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(errors)
 
         const isFormValid = (name, date, time) => {
             if (name.trim() !== "" && date.trim() !== "" && time.trim() !== "") return true
@@ -84,6 +86,7 @@ function CreateTaskForm({ members, eventId }) {
                         placeholder="Task Name"
                         value={task_name}
                         onChange={(e) => setTaskName(e.target.value)}
+                        className={formSubmitted && !task_name.trim() ? "highlight" : ""}
                         required
                     />
                 </div>
@@ -96,6 +99,8 @@ function CreateTaskForm({ members, eventId }) {
                             const newDate = e.target.value.trim() !== "" ? e.target.value : task_date;
                             setTaskDate(newDate);
                         }}
+                        className={formSubmitted && !task_date.trim() ? "highlight" : ""}
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -104,6 +109,7 @@ function CreateTaskForm({ members, eventId }) {
                         name="task_time"
                         value={task_time}
                         onChange={(e) => setTaskTime(e.target.value)}
+                        className={formSubmitted && !task_time.trim() ? "highlight" : ""}
                         required
                     />
                 </div>
@@ -131,6 +137,8 @@ function CreateTaskForm({ members, eventId }) {
                         name="assigned_to"
                         value={assigned_to}
                         onChange={(e) => setAssignedTo(e.target.value)}
+                        className={formSubmitted && !assigned_to.trim() ? "highlight" : ""}
+                        required
                     >
                         <option value="">Assign a user</option>
                         {members.map((member) => (
@@ -140,7 +148,7 @@ function CreateTaskForm({ members, eventId }) {
                         ))}
                     </select>
                 </div>
-                <button type="submit" className="submit-button" disabled={!isFormValid()}>
+                <button type="submit" onClick={() => setFormSubmitted(true)} className="submit-button">
                     Create Task
                 </button>
             </form>

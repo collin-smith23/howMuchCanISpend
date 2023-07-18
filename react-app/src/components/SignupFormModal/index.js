@@ -30,6 +30,7 @@ function SignupFormModal() {
 		}
 	};
 
+
 	const validateEmail = () => {
 		// Regular expression for email validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

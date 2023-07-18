@@ -79,13 +79,11 @@
 
 .task-el {
     margin-right: 10px;
-    max-width: 85px;
-    overflow-y: auto;
+    margin-left: 10px;
 }
 
 .task-el-title {
     margin-right: 10px;
-    margin-left: -100px;
     ;
 }
 

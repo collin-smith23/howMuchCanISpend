@@ -145,7 +145,7 @@ function EventForm() {
                         <option value={true}>Private</option>
                     </select>
                 </div>
-                <button type="submit" className="submit-button" disabled={!isFormValid()}>
+                <button type="submit" className="submit-button" >
                     Create Event
                 </button>
             </form>

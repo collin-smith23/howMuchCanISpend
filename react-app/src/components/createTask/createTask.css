@@ -47,3 +47,7 @@ textarea {
 .error-list li {
     margin-bottom: 5px;
 }
+
+.highlight {
+    border: 5px solid red;
+}

@@ -35,7 +35,7 @@
     cursor: pointer;
 }
 
-.task-detail-el {
+.task-el-detail {
     overflow-y: auto;
     max-width: 150px;
 }
@@ -82,7 +82,7 @@
 
     .task-details .task-el {
         margin-right: 20px;
-        margin-left: 0px;
+        margin-left: 2px;
         /* Increase the minimum space between elements */
     }
 
