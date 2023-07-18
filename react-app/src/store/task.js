@@ -1,6 +1,6 @@
 
 const GET_TASKS = "tasks/GET_TASKS"
-const GET_TASK = "tasks/GET_TASK"
+const GET_USER_TASK = "tasks/GET_USER_TASK"
 const DELETE_TASK = "task/DELETE_TASK"
 
 const getTasks = (tasks) => ({
@@ -9,9 +9,9 @@ const getTasks = (tasks) => ({
 })
 
 
-const getTask = (task) => ({
-    type: GET_TASK,
-    payload: task
+const getUserTasks = (userTasks) => ({
+    type: GET_USER_TASK,
+    payload: userTasks
 })
 
 const deleteTask = (task) => ({
@@ -23,7 +23,7 @@ export const getCreatedTask = () => async (dispatch) => {
     const res = await fetch ('/api/task/created');
     if (res.ok) {
         const data = await res.json();
-        dispatch(getTasks(data));
+        dispatch(getUserTasks(data));
         return data
     } else {
         const error = await res.json()
@@ -144,15 +144,15 @@ export const removeTask = (taskId) => async (dispatch) => {
     }
 };
 
-const initialState = { tasks: [], task: {}};
+const initialState = { tasks: [], task: {}, userTasks: []};
 
 export default function task(state = initialState, action){
     let newState = Object.assign(state)
     switch (action.type) {
         case GET_TASKS:
             return {...newState, tasks: action.payload}
-        case GET_TASK:
-            return {...action.payload}
+        case GET_USER_TASK:
+            return {...newState, userTasks: action.payload}
         case DELETE_TASK:
             return {...newState, task: {}}
         default:

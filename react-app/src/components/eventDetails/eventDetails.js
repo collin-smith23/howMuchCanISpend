@@ -43,6 +43,9 @@ function EventDetails() {
         if (user) {
             dispatch(taskActions.getEventTask(eventId))
         }
+        else {
+            history.push('/')
+        }
     }, [dispatch, user])
 
 
@@ -86,8 +89,16 @@ function EventDetails() {
         if (!members) {
             return false;
         }
-        const userRole = members.find((member) => member.user_id === user.id)?.role
-        return userRole === "admin" || userRole === "owner" || userRole === "guest"
+        let isuser = members.find((member) => member.user_id === user.id)
+        console.log('this is userRole', isuser)
+        if (isuser) {
+            console.log('yes')
+            return true
+        }
+        else {
+            console.log('no')
+            return false
+        }
     }
 
     useEffect(() => {
@@ -116,7 +127,7 @@ function EventDetails() {
     }
 
     if (!user) {
-            return history.push('/')
+        return history.push('/')
     }
 
 
@@ -129,8 +140,6 @@ function EventDetails() {
                 </div>
                 <div className="event-info">
                     <div className="event-title">{event.event_name}</div>
-
-
                     {isAdmin() && (
                         <div className='buttons'>
 
@@ -188,9 +197,9 @@ function EventDetails() {
                                         <div className="task-el">{task.status}</div>
                                         <div className="task-owner">
                                             <OpenModalButton
-                                            buttonText="Edit Task"
-                                            onItemClick={openMenu}
-                                            modalComponent={<EditTaskForm task={task} eventId={eventId}/>}
+                                                buttonText="Edit Task"
+                                                onItemClick={openMenu}
+                                                modalComponent={<EditTaskForm task={task} eventId={eventId} />}
                                             />
                                         </div>
                                     </div>

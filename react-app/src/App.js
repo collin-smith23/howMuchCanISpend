@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Switch, Redirect } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import HomePage from "./components/home";
@@ -11,9 +11,19 @@ import Navigation from "./components/Navigation";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const user = useSelector((state) => state.session.user);
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
+
+  if (!user) {
+    return (
+      <>
+      <Navigation isLoaded={isLoaded}/>
+      <HomePage/>
+      </>
+    )
+  }
 
   return (
     <div className="app">
@@ -26,6 +36,9 @@ function App() {
           <Route exact path="/">
             <HomePage />
           </Route>
+          <Route path="*">
+          <Redirect to="/" />
+        </Route>
         </Switch>
       )}
     </div>
