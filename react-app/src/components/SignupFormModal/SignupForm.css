@@ -53,3 +53,13 @@
 .error {
     color: red
 }
+
+@media screen and (max-width: 600px) {
+    .signup-back {
+        max-width: 100%;
+    }
+
+    .signup-back input {
+        width: 100%;
+    }
+}
