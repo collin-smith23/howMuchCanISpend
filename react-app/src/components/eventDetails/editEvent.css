@@ -54,7 +54,6 @@ textarea {
 }
 
 
-/* Media Queries for Responsive Design */
 @media screen and (max-width: 600px) {
     .form-container {
         max-width: 100%;
