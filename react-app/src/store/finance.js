@@ -85,6 +85,7 @@ export const editTransaction = (financeId, transaction) => async (dispatch) => {
             const errorMessages = errorData.errors;
             throw new Error(JSON.stringify(errorMessages));
         }
+        const data = res.json()
         dispatch(getFinanceRecord(financeId));
         return data;
     } catch (error) {

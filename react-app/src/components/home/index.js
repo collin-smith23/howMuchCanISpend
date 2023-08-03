@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as eventActions from "../../store/event";
 import OpenModalButton from "../OpenModalButton";
 import Events from "../event";
+import Finances from "../finance/finance";
 import Tasks from "../task/task";
 import './home.css'
 import image from './image/background.jpg'
@@ -42,8 +43,7 @@ function HomePage() {
                 <Events />
             </div>
             <div className="finance-container">
-                <h2 className="title-finance">Finance</h2>
-                <div className="title-finance">Feature Coming SOON</div>
+                <Finances />
             </div>
         </div>
         </div>
