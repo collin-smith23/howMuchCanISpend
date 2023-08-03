@@ -19,7 +19,7 @@ export const getUserFinances = () => async (dispatch) => {
     const res = await fetch(`api/finance/`);
     if (res.ok) {
         const data = await res.json();
-        dispatch(GET_FINANCES(data));
+        dispatch(getFinances(data));
         return data
     } else {
         const error = await res.json()
@@ -38,6 +38,72 @@ export const getFinanceRecord = (financeId) => async (dispatch) => {
         return error
     }
 };
+
+export const addFinanceRecord = (transaction) => async (dispatch) => {
+    try {
+        const res = await fetch("/api/finance/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                amount: transaction.amount,
+                transaction_type : transaction.transaction_type,
+                transaction_details : transaction.transaction_details,
+                transaction_date: transaction.transaction_date,
+            }),
+        })
+        if (!res.ok) {
+            const errorData = await res.json();
+            const errorMessages = errorData.errors;
+            throw new Error(JSON.stringify(errorMessages));
+        }
+        const data = await res.json();
+        dispatch(getFinanceRecord(data.id));
+        return data;
+    } catch (error) {
+        return JSON.parse(error.messsage)
+    }
+}
+
+export const editTransaction = (financeId, transaction) => async (dispatch) => {
+    try {
+        const res = await fetch(`/api/finance/${financeId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                amount: transaction.amount,
+                transaction_type : transaction.transaction_type,
+                transaction_details : transaction.transaction_details,
+                transaction_date: transaction.transaction_date,
+            }),
+        })
+        if (!res.ok) {
+            const errorData = await res.json();
+            const errorMessages = errorData.errors;
+            throw new Error(JSON.stringify(errorMessages));
+        }
+        dispatch(getFinanceRecord(financeId));
+        return data;
+    } catch (error) {
+        return JSON.parse(error.messsage)
+    }
+}
+
+export const deleteTransaction = (financeId) => async (dispatch) => {
+    const res = await fetch(`/api/finance/${financeId}`, {
+        method: "DELETE",
+    })
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(removeFinance(data));
+    } else {
+        const error = await res.json()
+        return error
+    }
+}
 
 
 
