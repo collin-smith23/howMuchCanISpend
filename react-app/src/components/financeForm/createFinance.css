@@ -1,0 +1,7 @@
+.button-box {
+    display: flex;
+}
+
+.form-container, .finance {
+    border: 1px solid black;
+}

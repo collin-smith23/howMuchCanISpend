@@ -5,6 +5,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import HomePage from "./components/home";
 import EventDetails from "./components/eventDetails/eventDetails";
+import FinanceForm from "./components/financeForm/createFinance";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -32,6 +33,9 @@ function App() {
         <Switch>
           <Route path="/event/:eventId">
             <EventDetails />
+          </Route>
+          <Route path="/finance/new">
+            <FinanceForm />
           </Route>
           <Route exact path="/">
             <HomePage />

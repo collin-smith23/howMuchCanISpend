@@ -4,12 +4,14 @@ import session from './session'
 import event from './event';
 import member from './member';
 import task from './task';
+import finance from './finance';
 
 const rootReducer = combineReducers({
   session,
   event,
   member,
-  task
+  task,
+  finance
 });
 
 

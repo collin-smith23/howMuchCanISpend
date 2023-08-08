@@ -34,6 +34,7 @@ function Events() {
         if (!showMenu) return;
 
         const closeMenu = (e) => {
+            console.log(ulRef)
             if (!ulRef.current.contains(e.target)) {
                 setShowMenu(false);
             }

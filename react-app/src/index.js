@@ -7,7 +7,8 @@ import { ModalProvider, Modal } from "./context/Modal";
 import configureStore from "./store";
 import * as sessionActions from "./store/session";
 import * as memberActions from "./store/member";
-import * as eventActions from './store/event'
+import * as eventActions from './store/event';
+import * as financeActions from './store/finance';
 import App from "./App";
 
 import "./index.css";

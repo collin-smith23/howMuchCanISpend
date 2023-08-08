@@ -99,7 +99,7 @@ export const deleteTransaction = (financeId) => async (dispatch) => {
     })
     if (res.ok) {
         const data = await res.json();
-        dispatch(removeFinance(data));
+        dispatch(getUserFinances());
     } else {
         const error = await res.json()
         return error
