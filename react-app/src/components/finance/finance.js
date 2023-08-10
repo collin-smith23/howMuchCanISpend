@@ -47,6 +47,10 @@ function Finances() {
         setShowContextMenu(false);
     };
 
+    const handleEdit = (selectedFinanceId) => {
+        history.push(`/finance/${selectedFinanceId}/edit`)
+    }
+
     return finances ? (
         <div className="finance-contain">
             <h2 className="title finance">Finances</h2>

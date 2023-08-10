@@ -27,6 +27,7 @@ function HomePage() {
                 <p className="welcome-p">After signing up create an event! Once you have an event created, you will see it on your home page. With a created event, you can now add other members and create task and track the progress of them!</p>
                 <div className="div-welcome">Yes it is that simple, and I strive to keep it that way!</div>
                 <h3>Stay Tuned for updates as this application is always trying to improve!</h3>
+                <h4>Interested in learning more about the creator? </h4>
                 <footer className="footer">How Much Can I Spend is a non profit application designed for portfolio use only</footer>
             </div>
             </div>

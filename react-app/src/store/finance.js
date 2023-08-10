@@ -28,13 +28,18 @@ export const getUserFinances = () => async (dispatch) => {
 }
 
 export const getFinanceRecord = (financeId) => async (dispatch) => {
-    const res = await fetch(`/api/finance/${financeId}`);
-    if (res.ok) {
+    try{
+        const res = await fetch(`/api/finance/${financeId}`);
+        if (!res.ok) {
+            const errorData = await res.json();
+            const errorMessages = errorData.errors;
+            throw new Error(JSON.stringify(errorMessages));
+        }
         const data = await res.json();
         dispatch(getFinance(data));
-        return data
-    } else {
-        const error = await res.json();
+        return data;
+    } catch(error) {
+        console.log('this is error', error)
         return error
     }
 };
@@ -69,7 +74,7 @@ export const addFinanceRecord = (transaction) => async (dispatch) => {
 export const editTransaction = (financeId, transaction) => async (dispatch) => {
     try {
         const res = await fetch(`/api/finance/${financeId}`, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -86,9 +91,10 @@ export const editTransaction = (financeId, transaction) => async (dispatch) => {
             throw new Error(JSON.stringify(errorMessages));
         }
         const data = res.json()
-        dispatch(getFinanceRecord(financeId));
+        dispatch(getUserFinances());
         return data;
     } catch (error) {
+        console.log(error)
         return JSON.parse(error.messsage)
     }
 }
