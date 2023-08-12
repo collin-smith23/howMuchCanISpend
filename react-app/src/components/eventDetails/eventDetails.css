@@ -90,7 +90,7 @@
 
 .task-el-details {
     max-width: 250px;
-
+    min-width: 25px;
     overflow-y: auto;
     width: 250px;
 
