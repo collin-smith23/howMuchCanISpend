@@ -188,7 +188,7 @@ function EventDetails() {
                                         <div className="task-el">{task.task_time}</div>
                                         <div className="task-el-details">{task.task_details}</div>
                                         <div className="task-el">{task.status}</div>
-                                        <div className='task-el'>Assigned to: {task.assigned_to}</div>
+                                        <div className='task-el'>Assigned to: {task.assigned_user_name}</div>
                                         <div className="task-owner">
                                             <OpenModalButton
                                                 buttonText="Edit Task"

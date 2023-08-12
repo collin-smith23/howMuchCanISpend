@@ -34,6 +34,12 @@ class Task(db.Model):
         current_date = datetime.now().date()
         return self.task_date >= current_date
     
+    def assigned_user_name(self):
+        if self.assigned_to:
+            assigned_user = User.query.get(self.assigned_to)
+            return assigned_user.username if assigned_user else None
+        return None
+    
     def to_dict(self):
         return {
             'id': self.id,
@@ -44,6 +50,7 @@ class Task(db.Model):
             'status': self.status,
             'owner_id': self.owner_id,
             'assigned_to': self.assigned_to,
+            'assigned_user_name': self.assigned_user_name(),
             'event_id': self.event_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at
