@@ -33,6 +33,7 @@ function Finances() {
         setContextMenuPos({ x: e.clientX, y: e.clientY });
         setShowContextMenu(true);
         setSelectedFinanceId(financeId);
+        
     };
 
     const handleCloseContextMenu = () => {
