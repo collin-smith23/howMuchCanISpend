@@ -28,10 +28,26 @@ def seed_finances():
             transaction_details = 'Dinner at a restaurant',
             user_id = 2
     )
+    transaction4 = Finance(
+            amount = 20.75,
+            transaction_type = 'Expense',
+            transaction_date = datetime(2023, 6, 23).date(),
+            transaction_details = 'Movies',
+            user_id = 2
+    )
+    transaction5 = Finance(
+            amount = 20.75,
+            transaction_type = 'Expense',
+            transaction_date = datetime(2023, 8, 25).date(),
+            transaction_details = 'Credit Card Payment',
+            user_id = 2
+    )
     
     db.session.add(transaction1)
     db.session.add(transaction2)
     db.session.add(transaction3)
+    db.session.add(transaction4)
+    db.session.add(transaction5)
     db.session.commit()
 
 def undo_finances():
