@@ -11,21 +11,15 @@ function Finances() {
     const dispatch = useDispatch();
     const history = useHistory();
     const finances = useSelector((state) => state.finance.finances.finances)
-    const user = useSelector((state) => state.session.user)
-    const [selectedFinanceId, setSelectedFinanceId] = useState(null)
+    const user = useSelector((state) => state.session.user);
+    const [selectedFinanceId, setSelectedFinanceId] = useState(null);
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 });
 
 
 
     useEffect(() => {
-        if (user) {
-            dispatch(financeActions.getUserFinances());
-        } else {
-            return (
-                <div>Must be logged in to view</div>
-            )
-        }
+        dispatch(financeActions.getUserFinances());
     }, [dispatch, user]);
 
     const handleContextMenu = (e, financeId) => {
@@ -49,6 +43,10 @@ function Finances() {
 
     const handleEdit = (selectedFinanceId) => {
         history.push(`/finance/${selectedFinanceId}/edit`)
+    }
+
+    if (finances === undefined) {
+        return <div>Loading...</div>
     }
 
     return finances ? (

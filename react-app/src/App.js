@@ -7,6 +7,7 @@ import HomePage from "./components/home";
 import EventDetails from "./components/eventDetails/eventDetails";
 import FinanceForm from "./components/financeForm/createFinance";
 import FinanceEditForm from "./components/financeEditForm/editFinance";
+import FinanceDetails from "./components/financeDetails/financeDetails";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -38,7 +39,10 @@ function App() {
           <Route path="/finance/new">
             <FinanceForm />
           </Route>
-          <Route path="/finance/:financeId/edit">
+          <Route exact path='/finance/:financeId'>
+            <FinanceDetails></FinanceDetails>
+          </Route>
+          <Route exact path="/finance/:financeId/edit">
             <FinanceEditForm />
           </Route>
           <Route exact path="/">

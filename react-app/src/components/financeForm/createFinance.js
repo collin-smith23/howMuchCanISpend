@@ -42,10 +42,11 @@ function FinanceForm() {
             try {
 
                 const data = await dispatch(financeActions.addFinanceRecord(formattedTransaction))
+                console.log(data)
                 if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)
                 } else {
-                    history.push('/');
+                    history.push(`/finance/${data.id}`);
                 }
             } catch (error) {
                 setErrors([error.message]);

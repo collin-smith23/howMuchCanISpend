@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as eventActions from "../../store/event";
+import * as financeActions from "../../store/finance"
 import OpenModalButton from "../OpenModalButton";
 import Events from "../event";
 import Finances from "../finance/finance";
@@ -12,7 +13,17 @@ function HomePage() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
     const events = useSelector((state) => state.event.events);
+    // const finances = useSelector((state) => state.finance.finances.finances);
 
+    // useEffect(() => {
+    //     if (user) {
+    //         dispatch(financeActions.getUserFinances());
+    //     } else {
+    //         return (
+    //             <div>Must be logged in to view</div>
+    //         )
+    //     }
+    // }, [dispatch, user]);
 
     if (!events) {
         dispatch(eventActions.getAllUserEvents());
@@ -34,7 +45,7 @@ function HomePage() {
                 </div>
             </div>
         )
-    }
+    };
 
     return user && events ? (
         <div className="background-container">
@@ -70,4 +81,4 @@ function HomePage() {
     );
 }
 
-export default HomePage
+export default HomePage;
