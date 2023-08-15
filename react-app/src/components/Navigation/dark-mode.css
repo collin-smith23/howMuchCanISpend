@@ -1,0 +1,13 @@
+.dark-mode .nav-bar .background-container {
+    /* Dark mode styles for background-container */
+    background-color: #1e1e1e; /* Dark background color */
+    color: #ffffff; /* Light text color */
+}
+
+.dark-mode .task-box {
+    background-color: grey;
+}
+
+.dark-mode .category-title-box {
+    color: black
+}
