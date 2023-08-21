@@ -48,6 +48,11 @@ function Finances() {
         setShowContextMenu(false);
     };
 
+    const handleEdit = () => {
+        window.alert("Feature Coming Soon!")
+        setShowContextMenu(false)
+    }
+
     return finances ? (
         <div className="finance-contain">
             <h2 className="title finance">Finances</h2>
@@ -81,6 +86,7 @@ function Finances() {
                     y={contextMenuPos.y}
                     onClose={handleCloseContextMenu}
                     onDelete={handleDelete}
+                    onEdit={handleEdit}
                 />
             )}
         </div>

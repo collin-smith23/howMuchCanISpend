@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ContextMenu({ x, y, onClose, onDelete }) {
+function ContextMenu({ x, y, onClose, onDelete, onEdit }) {
     const [hoveredOption, setHoveredOption] = useState(null);
 
     const handleMouseEnter = (option) => {
@@ -16,6 +16,8 @@ function ContextMenu({ x, y, onClose, onDelete }) {
             onDelete();
         } else if (action === "cancel") {
             onClose();
+        } else if (action === "edit") {
+            onEdit();
         }
     };
 
@@ -37,6 +39,16 @@ function ContextMenu({ x, y, onClose, onDelete }) {
             >
                 Cancel
             </div>
+            {onEdit && (
+                <div
+                    className={`context-menu-item ${hoveredOption === "edit" ? "hovered" : ""}`}
+                    onClick={() => handleClick("edit")}
+                    onMouseEnter={() => handleMouseEnter("edit")}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Edit
+                </div>
+            )}
         </div>
     );
 }
