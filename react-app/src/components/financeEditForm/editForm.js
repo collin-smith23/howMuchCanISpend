@@ -57,7 +57,7 @@ function FinanceEditForm() {
 
         if (isFormValid(amount, transaction_date, transaction_details)) {
             const dateObj = new Date(transaction_date);
-            const formattedTransactionDate = dateObj.toISOString().slice(0, 19).replace('T', ' ');
+            const formattedTransactionDate = transaction_date.slice(0, 10);
 
             const formattedTransaction = {
                 amount,
@@ -66,12 +66,17 @@ function FinanceEditForm() {
                 transaction_details
             }
             try {
-
+                console.log('--------------formatted transaction --------', formattedTransaction)
                 const data = await dispatch(financeActions.editTransaction(financeId, formattedTransaction))
                 if (Array.isArray(data) && data.length > 0) {
                     setErrors(data)
+                    return (
+                        <>
+                        <div>{errors}</div>
+                        </>
+                    )
                 } else {
-                    history.push('/');
+                    history.push('/')
                 }
             } catch (error) {
                 setErrors([error.message]);
@@ -100,7 +105,7 @@ function FinanceEditForm() {
 
     return (
         <div className="form-container finance">
-            <h1>Create Finance Record</h1>
+            <h1>Edit Finance Record</h1>
             <form onSubmit={handleSubmit}>
                 {errors.length > 0 && (
                     <ul className="error-list">

@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from flask_login import login_required, current_user
 from app.models import Finance, db
 from app.forms import CreateFinanceRecord
+from app.forms import EditFinanceRecord
 from datetime import datetime
 
 finance_routes = Blueprint('finance', __name__)
@@ -47,15 +48,15 @@ def accessing_finances(id):
         if record.user_id == current_user.id:
             if request.method == "GET":
                 return record.to_dict()
-            if request.method == "PUT":
-                form = CreateFinanceRecord()
+            elif request.method == "PUT":
+                form = EditFinanceRecord()
                 form['csrf_token'].data = request.cookies['csrf_token']
                 if form.validate_on_submit():
                     record.amount = form.data["amount"]
                     record.transaction_type = form.data["transaction_type"]
                     record.transaction_details = form.data["transaction_details"]
                     record.transaction_date = form.data["transaction_date"]
-                    record.updated_at = datetime.now
+                    record.updated_at = datetime.now()
                     db.session.commit()
                     return record.to_dict(), 202
                 else:
