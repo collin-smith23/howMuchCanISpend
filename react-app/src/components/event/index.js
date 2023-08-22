@@ -40,9 +40,11 @@ function Events() {
             }
         };
 
-        document.addEventListener("click", closeMenu);
+        const clickListener = (e) => closeMenu(e);
 
-        return () => document.removeEventListener("click", closeMenu);
+        document.addEventListener("click", clickListener);
+
+        return () => document.removeEventListener("click", clickListener);
     }, [showMenu]);
 
     const handleEventClick = (eventId) => {

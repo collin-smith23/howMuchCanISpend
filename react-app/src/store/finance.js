@@ -69,7 +69,7 @@ export const addFinanceRecord = (transaction) => async (dispatch) => {
 export const editTransaction = (financeId, transaction) => async (dispatch) => {
     try {
         const res = await fetch(`/api/finance/${financeId}`, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -108,16 +108,16 @@ export const deleteTransaction = (financeId) => async (dispatch) => {
 
 
 
-const initialState = { finance: {}, finances: []};
+const initialState = { finances: []};
 export default function finance(state = initialState, action) {
     let newState = Object.assign(state)
     switch (action.type) {
         case GET_FINANCE:
-            return {...action.payload}
+            return {finances: action.payload}
         case GET_FINANCES:
             return {...newState, finances: action.payload}
         case REMOVE_FINANCE:
-            return {...newState, finance:{}}
+            return {...newState, finances:[]}
         default:
             return state
     }

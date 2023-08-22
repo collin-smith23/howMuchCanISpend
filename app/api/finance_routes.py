@@ -46,7 +46,7 @@ def accessing_finances(id):
     if record:
         if record.user_id == current_user.id:
             if request.method == "GET":
-                return {"record": record}
+                return record.to_dict()
             if request.method == "PUT":
                 form = CreateFinanceRecord()
                 form['csrf_token'].data = request.cookies['csrf_token']

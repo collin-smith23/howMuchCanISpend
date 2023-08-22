@@ -22,7 +22,7 @@ function Tasks() {
             dispatch(taskActions.getAssignedTask());
             dispatch(taskActions.getCreatedTask());
         }
-    }, [dispatch, user, showMenu]);
+    }, [dispatch, user]);
 
     const openMenu = () => {
         if (showMenu) return;
@@ -38,9 +38,11 @@ function Tasks() {
             }
         };
 
-        document.addEventListener("click", closeMenu);
+        const clickListener = (e) => closeMenu(e);
 
-        return () => document.removeEventListener("click", closeMenu);
+        document.addEventListener("click", clickListener);
+
+        return () => document.removeEventListener("click", clickListener);
     }, [showMenu]);
 
     const assignedTasks = useSelector((state) => state.task.tasks.tasks) || [];

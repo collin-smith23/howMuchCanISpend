@@ -26,7 +26,7 @@ function Finances() {
                 <div>Must be logged in to view</div>
             )
         }
-    }, [dispatch, user]);
+    }, [dispatch, user])
 
     const handleContextMenu = (e, financeId) => {
         e.preventDefault();
@@ -49,8 +49,7 @@ function Finances() {
     };
 
     const handleEdit = () => {
-        window.alert("Feature Coming Soon!")
-        setShowContextMenu(false)
+        history.push(`finance/${selectedFinanceId}/edit`)
     }
 
     return finances ? (
