@@ -10,9 +10,9 @@ import "./finance.css";
 function Finances() {
     const dispatch = useDispatch();
     const history = useHistory();
-    const finances = useSelector((state) => state.finance.finances.finances)
-    const user = useSelector((state) => state.session.user)
-    const [selectedFinanceId, setSelectedFinanceId] = useState(null)
+    const finances = useSelector((state) => state.finance.finances.finances);
+    const user = useSelector((state) => state.session.user);
+    const [selectedFinanceId, setSelectedFinanceId] = useState(null);
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 });
 
