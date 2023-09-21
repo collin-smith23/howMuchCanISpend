@@ -45,7 +45,7 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Logged in as {user.username}</li>
+            <li>Hello {user.username}</li>
             <li className="white-space">
               . . . . 
               <button onClick={handleLogout}>Log Out</button>
@@ -65,6 +65,9 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
+                        <li className="white-space">
+              . . . . 
+            </li>
           </>
         )}
       </ul>
